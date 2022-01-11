@@ -6,16 +6,19 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/10 21:22:12 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/11 13:50:41 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS=   ./utils/ft_atoi.c \
+SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_checknb.c \
 		./utils/ft_freelst.c \
 		./utils/ft_isdigit.c \
 		./utils/ft_lstaddnbr.c \
 		./utils/ft_throwerror.c \
+		./utils/ft_checkdouble.c \
+		./utils/ft_rotate.c \
+		./utils/ft_pushandswap.c \
 		push_swap.c
 
 OBJS:=   ${SRCS:.c=.o}
@@ -40,7 +43,5 @@ re:			fclean all
 
 .PHONY:		all clean fclean re
 
-.c.o:	
+.c.o:	${INCL}
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I includes
-
-

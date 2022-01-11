@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 20:08:12 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/10 20:49:54 by bdetune          ###   ########.fr       */
+/*   Created: 2022/01/11 12:50:54 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/11 13:03:34 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ long long	ft_atoll(const char *str)
 	sign_factor = lcl_getsign(str, &i);
 	nb_char = (char *)&str[i];
 	i = 0;
-	while (nb_char[i] && ret <= -INT_MIN)
+	while (nb_char[i] && -ret >= INT_MIN)
 	{
 		ret = ret * 10 + nb_char[i] - '0';
 		i++;

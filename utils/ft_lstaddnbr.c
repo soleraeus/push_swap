@@ -6,11 +6,12 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:37:24 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/10 20:28:42 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/11 13:03:56 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
 static t_list	*ft_lstnew(int nb)
 {
@@ -33,6 +34,7 @@ void	ft_lstaddnbr(t_list **numbers, char *av)
 	nb = ft_atoll(av);
 	if (nb > INT_MAX || nb < INT_MIN)
 		ft_throwerror(numbers);
+	ft_checkdouble(numbers, nb);
 	new = ft_lstnew((int)nb);
 	if (!new)
 		ft_throwerror(numbers);
