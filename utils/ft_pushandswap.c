@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/11 13:52:33 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/12 12:23:21 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 void	ft_swapone(t_list **begin)
 {
-	int	swap;
+	int	swapnb;
+	int	swapindex;
 
 	if (!begin || !*begin || !(*begin)->next)
 		return ;
-	swap = (*begin)->nb;
+	swapnb = (*begin)->nb;
+	swapindex = (*begin)->index;
 	(*begin)->nb = (*begin)->next->nb;
-	(*begin)->next->nb = swap;
+	(*begin)->index = (*begin)->next->index;
+	(*begin)->next->nb = swapnb;
+	(*begin)->next->index = swapindex;
 }
 
 void	ft_swapboth(t_list **numbers_a, t_list **numbers_b)

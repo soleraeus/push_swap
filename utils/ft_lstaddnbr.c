@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:37:24 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/11 13:03:56 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/12 11:55:13 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static t_list	*ft_lstnew(int nb)
 	if (!new)
 		return (NULL);
 	new->nb = nb;
+	new->index = -1;
 	return (new);
 }
 

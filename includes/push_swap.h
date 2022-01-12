@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/11 13:50:07 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/12 12:44:59 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_list
 {
 	int				nb;
+	int				index;
 	struct s_list	*next;
 }	t_list;
 
@@ -31,6 +32,7 @@ void		ft_freelst(t_list **begin);
 int			ft_checknb(char *nb);
 long long	ft_atoll(const char *str);
 void		ft_checkdouble(t_list **numbers, int nb);
+void		ft_findindex(t_list **numbers_a, int size);
 void		ft_swapone(t_list **begin);
 void		ft_swapboth(t_list **numbers_a, t_list **numbers_b);
 void		ft_push(t_list **dst, t_list **src);
@@ -38,5 +40,7 @@ void		ft_rotateone(t_list **begin);
 void		ft_rotateboth(t_list **numbers_a, t_list **numbers_b);
 void		ft_reverserotateone(t_list **begin);
 void		ft_reverserotateboth(t_list **numbers_a, t_list **numbers_b);
+int			ft_issorted(t_list *numbers_a);
+void		ft_finalrotation(t_list **numbers_a, int size);
 
 #endif
