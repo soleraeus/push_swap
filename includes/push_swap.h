@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/12 12:44:59 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/14 20:36:42 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,39 @@ typedef struct s_list
 {
 	int				nb;
 	int				index;
+	int				streak;
 	struct s_list	*next;
+	struct s_list	*prev;
 }	t_list;
 
-void		ft_throwerror(t_list **numbers);
-void		ft_lstaddnbr(t_list **numbers, char *av);
+typedef struct s_info
+{
+	t_list	*begin_a;
+	t_list	*last_a;
+	t_list	*min;
+	int		size_a;
+	t_list	*begin_b;
+	t_list	*last_b;
+	int		size_b;
+}	t_info;
+
+void		ft_initinfo(t_info *info, int size);
+void		ft_throwerror(t_info *info);
+void		ft_lstaddnbr(t_info *info, char *av);
 int			ft_isdigit(int c);
-void		ft_freelst(t_list **begin);
+void		ft_freelst(t_list *begin);
 int			ft_checknb(char *nb);
 long long	ft_atoll(const char *str);
-void		ft_checkdouble(t_list **numbers, int nb);
-void		ft_findindex(t_list **numbers_a, int size);
+void		ft_checkdouble(t_info *info, int nb);
+void		ft_findwrongpos(t_info *info);
 void		ft_swapone(t_list **begin);
-void		ft_swapboth(t_list **numbers_a, t_list **numbers_b);
-void		ft_push(t_list **dst, t_list **src);
-void		ft_rotateone(t_list **begin);
-void		ft_rotateboth(t_list **numbers_a, t_list **numbers_b);
-void		ft_reverserotateone(t_list **begin);
-void		ft_reverserotateboth(t_list **numbers_a, t_list **numbers_b);
-int			ft_issorted(t_list *numbers_a);
-void		ft_finalrotation(t_list **numbers_a, int size);
+void		ft_swapboth(t_info *info);
+void		ft_pusha(t_info *info);
+void		ft_pushb(t_info *info);
+void		ft_rotateone(t_list **begin, t_list **last);
+void		ft_rotateboth(t_info *info);
+void		ft_reverserotateone(t_list **begin, t_list **last);
+void		ft_reverserotateboth(t_info *info);
+void		ft_finalrotation(t_info *info);
 
 #endif

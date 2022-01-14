@@ -6,48 +6,39 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/12 12:53:09 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/14 20:34:57 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-int	main(int ac, char **av)
+/*
+void	ft_sortlist(t_info *info)
 {
-	int		size;
-	t_list	*numbers_a;
-	t_list	*numbers_b;
+	int		dist_from_begin;
+	int		dist_from_last;
 	t_list	*current;
 
+}
+*/
+
+int	main(int ac, char **av)
+{
+	t_info	info;
+
+	ft_initinfo(&info, (ac - 1));
 	if (ac == 1)
-		ft_throwerror(&numbers_a);
-	numbers_a = NULL;
-	numbers_b = NULL;
-	size = ac - 1;
+		return (0);
 	while (ac-- > 1)
-		ft_lstaddnbr(&numbers_a, av[ac]);
-	ft_findindex(&numbers_a, size);
-	if (!numbers_b && ft_issorted(numbers_a))
-		ft_finalrotation(&numbers_a, size);
-	else
-	{
-		ft_push(&numbers_b, &numbers_a);
-		ft_push(&numbers_b, &numbers_a);
-	}
-	write(1, "Stack A\n", 8);
-	current = numbers_a;
-	while(current)
-	{
-		printf("number: %d, index: %d\n", current->nb, current->index);
-		current = current->next;
-	}
-	write(1, "Stack B\n", 8);
-	current = numbers_b;
-	while(current)
-	{
-		printf("number: %d, index: %d\n", current->nb, current->index);
-		current = current->next;
-	}
-	return (1);
+		ft_lstaddnbr(&info, av[ac]);
+	if (info.size_a == 1)
+		return (ft_freelst(info.begin_a), 0);
+	info.begin_a->prev = info.last_a;
+	info.last_a->next = info.begin_a;
+	ft_findwrongpos(&info);
+	if (info.min->streak == info.size_a)
+		return (ft_finalrotation(&info), ft_freelst(info.begin_a), 0);
+//	ft_sortlist(&info);
+	return (0);
 }

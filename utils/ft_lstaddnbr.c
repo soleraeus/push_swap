@@ -6,12 +6,11 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:37:24 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/12 11:55:13 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/14 19:09:47 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
 static t_list	*ft_lstnew(int nb)
 {
@@ -22,23 +21,35 @@ static t_list	*ft_lstnew(int nb)
 		return (NULL);
 	new->nb = nb;
 	new->index = -1;
+	new->prev = NULL;
+	new->next = NULL;
+	new->streak = 1;
 	return (new);
 }
 
-void	ft_lstaddnbr(t_list **numbers, char *av)
+void	ft_lstaddnbr(t_info *info, char *av)
 {
 	long long	nb;
 	t_list		*new;
-	
+
 	if (ft_checknb(av))
-		ft_throwerror(numbers);
+		ft_throwerror(info);
 	nb = ft_atoll(av);
 	if (nb > INT_MAX || nb < INT_MIN)
-		ft_throwerror(numbers);
-	ft_checkdouble(numbers, nb);
+		ft_throwerror(info);
+	ft_checkdouble(info, nb);
 	new = ft_lstnew((int)nb);
 	if (!new)
-		ft_throwerror(numbers);
-	new->next = *numbers;
-	*numbers = new;
+		ft_throwerror(info);
+	new->next = info->begin_a;
+	if (!info->begin_a)
+	{
+		info->min = new;
+		info->last_a = new;
+	}
+	else
+		info->begin_a->prev = new;
+	if (info->min && info->min->nb > new->nb)
+		info->min = new;
+	info->begin_a = new;
 }

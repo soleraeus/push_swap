@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/12 12:48:50 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/14 17:29:19 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,9 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_findindex.c \
 		./utils/ft_issorted.c \
 		./utils/ft_finalrotation.c \
+		./utils/ft_getmin.c \
+		./utils/ft_initinfo.c \
+		./utils/ft_findwrongpos.c \
 		push_swap.c
 
 OBJS:=   ${SRCS:.c=.o}
