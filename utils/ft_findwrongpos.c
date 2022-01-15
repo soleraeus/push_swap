@@ -6,13 +6,13 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 17:06:31 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/14 19:25:18 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/15 13:10:47 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	ft_markwrongpos(t_info *info, t_list **start)
+static int	ft_markwrongpos(t_info *info, t_list **start)
 {
 	t_list	*current;
 	t_list	*next;
@@ -26,19 +26,19 @@ static void	ft_markwrongpos(t_info *info, t_list **start)
 	while (current != next)
 	{
 		current->streak = -1;
+		info->unordered += 1;
 		current = current->next;
 	}
 	if (next->streak != 1)
-		ft_markwrongpos(info, &next);
-	else
+		return (ft_markwrongpos(info, &next));
+	next = next->next;
+	while (next != info->min)
 	{
+		next->streak = -1;
+		info->unordered += 1;
 		next = next->next;
-		while (next != info->min)
-		{
-			next->streak = -1;
-			next = next->next;
-		}
 	}
+	return (1);
 }
 
 void	ft_findwrongpos(t_info *info)

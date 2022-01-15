@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/14 20:33:57 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/15 13:37:27 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	ft_swapone(t_list **begin)
 	t_list	*swap;
 
 	swap = *begin;
-	*begin = (*begin)->next;
-	(*begin)->prev = (*begin)->prev->prev;
-	(*begin)->prev->next = begin;
+	*begin = swap->next;
 	(*begin)->next->prev = swap;
+	(*begin)->prev = swap->prev;
+	(*begin)->prev->next = *begin;
+	swap->prev = *begin;
+	swap->next = (*begin)->next;
 	(*begin)->next = swap;
 }
 

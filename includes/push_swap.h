@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/14 20:36:42 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/15 17:34:07 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_info
 	t_list	*last_a;
 	t_list	*min;
 	int		size_a;
+	int		unordered;
 	t_list	*begin_b;
 	t_list	*last_b;
 	int		size_b;
@@ -55,6 +56,12 @@ void		ft_rotateone(t_list **begin, t_list **last);
 void		ft_rotateboth(t_info *info);
 void		ft_reverserotateone(t_list **begin, t_list **last);
 void		ft_reverserotateboth(t_info *info);
+int			ft_findclosest(t_info *info, t_list **unordered);
+int			ft_findnextvalid(t_list *begin);
+int			ft_findprevvalid(t_list *begin);
+void		ft_bringtofront(t_info *info, int dist, char stack);
+void		ft_insertbtoa(t_info *info);
+void		ft_print_instruction(char *action, char stack);
 void		ft_finalrotation(t_info *info);
 
 #endif
