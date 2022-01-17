@@ -27,6 +27,21 @@ typedef struct s_list
 	struct s_list	*prev;
 }	t_list;
 
+typedef struct s_instruction
+{
+	char			instruction[4];
+	struct s_instruction	*next;
+	struct s_instruction	*previous;
+}	t_instruction;
+
+typedef struct s_node
+{
+	int		nb_instructions;
+	t_instruction	*node_instructions_begin;
+	t_instruction	*node_instructions_last;
+	struct s_node	*possibilities;
+}	t_node;
+
 typedef struct s_info
 {
 	t_list	*begin_a;
@@ -38,6 +53,7 @@ typedef struct s_info
 	t_list	*last_b;
 	int		size_b;
 	t_list	*min_b;
+	t_node	*tree;
 }	t_info;
 
 void		ft_initinfo(t_info *info, int size);
