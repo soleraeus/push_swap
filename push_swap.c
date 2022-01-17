@@ -37,36 +37,24 @@ void	ft_pushorswap(t_info *info)
 {
 	int		dist;
 	t_list	*unordered;
-	int		next_valid_val;
-	int		prev_valid_val;
 
 	dist = ft_findclosest(info, &unordered);
 	info->unordered -= 1;
-	if (unordered->next->streak != -1 && unordered->next->nb < unordered->nb)
+	if (canswapnext(info, unordered))
 	{
-		next_valid_val = ft_findnextvalid(unordered->next->next);
-		if (next_valid_val > unordered->nb || next_valid_val == info->min->nb)
-		{
-			ft_bringtofront(info, dist, 'a');
-			unordered->streak = 1;
-			write(1, "sa\n", 3);
-			ft_swapone(&info->begin_a);
-			return ;
-		}
+		ft_bringtofront(info, dist, 'a');
+		unordered->streak = 1;
+		write(1, "sa\n", 3);
+		ft_swapone(&info->begin_a);
+		return ;
 	}
-	if (unordered->prev->streak != -1
-		&& (unordered->prev->nb > unordered->nb
-			|| unordered->prev->nb == info->min->nb))
+	if (canswapprev(info, unordered))
 	{
-		prev_valid_val = ft_findprevvalid(unordered->prev->prev);
-		if (prev_valid_val < unordered->nb)
-		{
-			ft_bringtofront(info, (dist - 1), 'a');
-			unordered->streak = 1;
-			write(1, "sa\n", 3);
-			ft_swapone(&info->begin_a);
-			return ;
-		}
+		ft_bringtofront(info, (dist - 1), 'a');
+		unordered->streak = 1;
+		write(1, "sa\n", 3);
+		ft_swapone(&info->begin_a);
+		return ;
 	}
 	ft_pushinorder(info, dist, unordered->nb);
 //	ft_bringtofront(info, dist, 'a');

@@ -58,6 +58,8 @@ void		ft_rotateboth(t_info *info);
 void		ft_reverserotateone(t_list **begin, t_list **last);
 void		ft_reverserotateboth(t_info *info);
 int			ft_findclosest(t_info *info, t_list **unordered);
+int		canswapnext(t_info *info, t_list *unordered);
+int		canswapprev(t_info *info, t_list *unordered);
 int			ft_findnextvalid(t_list *begin);
 int			ft_findprevvalid(t_list *begin);
 void		ft_bringtofront(t_info *info, int dist, char stack);

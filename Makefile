@@ -28,6 +28,7 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_print_instruction.c \
 		./utils/ft_insertbtoa.c \
 		./utils/ft_pushinorder.c \
+		./utils/canswap.c \
 		push_swap.c
 
 OBJS:=   ${SRCS:.c=.o}
