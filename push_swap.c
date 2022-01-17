@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/15 18:02:18 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/17 14:42:43 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ void	ft_pushorswap(t_info *info)
 			return ;
 		}
 	}
-	ft_bringtofront(info, dist, 'a');
-	write(1, "pb\n", 3);
-	ft_pushb(info);
+	ft_pushinorder(info, dist, unordered->nb);
+//	ft_bringtofront(info, dist, 'a');
+//	write(1, "pb\n", 3);
+//	ft_pushb(info);
 }
 
 void	ft_sortlist(t_info *info)
@@ -114,7 +115,7 @@ int	main(int ac, char **av)
 	ft_findwrongpos(&info);
 	if (info.unordered == 0)
 		return (ft_finalrotation(&info), ft_freelst(info.begin_a), 0);
-	printf("%d\n", info.min->streak);
-//	ft_sortlist(&info);
+//	printf("%d\n", info.min->streak);
+	ft_sortlist(&info);
 	return (0);
 }

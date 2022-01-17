@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/15 13:37:27 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/17 12:42:18 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_pushb(t_info *info)
 {
 	t_list	*swap;
 
+	ft_print_instruction("p", 'b');
 	if (info->size_a == 0)
 		return ;
 	swap = info->begin_a;
@@ -57,6 +58,10 @@ void	ft_pushb(t_info *info)
 		info->last_b->next = swap;
 		info->begin_b = swap;
 	}
+	if (info->min_b && info->min_b->nb > swap->nb)
+		info->min_b = swap;
+	if (!info->min_b)
+		info->min_b = swap;
 	info->size_b += 1;
 	info->size_a -= 1;
 }

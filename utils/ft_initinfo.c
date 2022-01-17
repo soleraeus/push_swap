@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 15:51:37 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/15 12:41:43 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/17 11:38:25 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@ void	ft_initinfo(t_info *info, int size)
 	info->begin_b = NULL;
 	info->last_b = NULL;
 	info->size_b = 0;
+	info->min_b = NULL;
 }
