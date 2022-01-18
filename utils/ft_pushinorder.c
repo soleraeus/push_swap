@@ -6,27 +6,28 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:31:19 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/17 14:58:09 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/18 12:49:48 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-void	ft_pushinorder(t_info *info, int dist_a, int nb)
+void	ft_pushinorder(t_info *info, t_moves *possibility)
 {
+	int		nb;
+	int		dist_a;
 	int		dist_b;
 	t_list	*current;
 
-//	printf("nb : %d\n", nb);
-//	printf("OK push in order\n");
+	dist_a = possibility->dist;
+	nb = possibility->nb;
 	if (info->size_b == 0 || info->size_b == 1)
 	{
-		ft_bringtofront(info, dist_a, 'a');
-		ft_pushb(info);
+		ft_bringtofront(possibility, 'a');
+		possibility->pb += 1;
 		return ;
 	}
-//	printf("min B: %d\n", info->min_b->nb);
 	dist_b = 0;
 	current = info->begin_b;
 	while (1)
@@ -38,33 +39,30 @@ void	ft_pushinorder(t_info *info, int dist_a, int nb)
 		dist_b++;
 		current = current->next;
 	}
-//	printf("dist B: %d\n", dist_b);
-//	printf("size B: %d\n", info->size_b);
-//	printf("reverse dist B: %d\n", -(info->size_b - dist_b));
-//	printf("dist A: %d\n", dist_a);
 	if (dist_a < 0 && (info->size_b - dist_b) < dist_b)
 	{
 		dist_b = -(info->size_b - dist_b);
 		while (!(dist_a == 0 || dist_b == 0))
 		{
-			ft_reverserotateboth(info);
+			possibility->rrr += 1;
 			dist_a++;
 			dist_b++;
 		}
-		ft_bringtofront(info, dist_a, 'a');
-		ft_bringtofront(info, dist_b, 'b');
+		ft_bringtofront(possibility, 'a');
+		possibility->dist = dist_b;
+		ft_bringtofront(possibility, 'b');
 	}
 	else if (dist_a > 0 && (info->size_b - dist_b) > dist_b)
 	{
-//		write(1, "case 2\n", 7);
 		while (!(dist_a == 0 || dist_b == 0))
 		{
-			ft_rotateboth(info);
+			possibility->rr += 1;
 			dist_a--;
 			dist_b--;
 		}
-		ft_bringtofront(info, dist_a, 'a');
-		ft_bringtofront(info, dist_b, 'b');
+		ft_bringtofront(possibility, 'a');
+		possibility->dist = dist_b;
+		ft_bringtofront(possibility, 'b');
 	}
 	else if (dist_a < 0 && (dist_a <= -(info->size_b - dist_b)
 			   || -(-(info->size_b - dist_b) - dist_a) < dist_b))
@@ -72,33 +70,40 @@ void	ft_pushinorder(t_info *info, int dist_a, int nb)
 		dist_b = -(info->size_b - dist_b);
 		while (!(dist_a == 0 || dist_b == 0))
 		{
-			ft_reverserotateboth(info);
+			possibility->rrr += 1;
 			dist_a++;
 			dist_b++;
 		}
-		ft_bringtofront(info, dist_a, 'a');
-		ft_bringtofront(info, dist_b, 'b');
+		ft_bringtofront(possibility, 'a');
+		possibility->dist = dist_b;
+		ft_bringtofront(possibility, 'b');
 	}
 	else if (dist_a > 0 && (dist_a > dist_b
 			   || (dist_b - dist_a) < (info->size_b - dist_b) ))
 	{
-//		write(1, "OK\n", 3);
 		while (!(dist_a == 0 || dist_b == 0))
 		{
-			ft_rotateboth(info);
+			possibility->rr += 1;
 			dist_a--;
 			dist_b--;
 		}
-		ft_bringtofront(info, dist_a, 'a');
-		ft_bringtofront(info, dist_b, 'b');
+		ft_bringtofront(possibility, 'a');
+		possibility->dist = dist_b;
+		ft_bringtofront(possibility, 'b');
 	}
 	else
 	{
-		ft_bringtofront(info, dist_a, 'a');
+		ft_bringtofront(possibility, 'a');
 		if (dist_b < (info->size_b - dist_b))
-			ft_bringtofront(info, dist_b, 'b');
+		{
+			possibility->dist = dist_b;
+			ft_bringtofront(possibility, 'b');
+		}
 		else
-			ft_bringtofront(info, (-(info->size_b - dist_b)), 'b');
+		{
+			possibility->dist = dist_b;
+			ft_bringtofront(possibility, 'b');
+		}
 	}
-	ft_pushb(info);
+	possibility->pb += 1;
 }

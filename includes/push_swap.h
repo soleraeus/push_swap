@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/17 12:36:11 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/18 14:16:22 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,24 @@ typedef struct s_list
 	struct s_list	*prev;
 }	t_list;
 
-typedef struct s_instruction
+typedef struct s_moves
 {
-	char			instruction[4];
-	struct s_instruction	*next;
-	struct s_instruction	*previous;
-}	t_instruction;
-
-typedef struct s_node
-{
+	t_list	*target;
+	int		dist;
+	int		nb;
 	int		nb_instructions;
-	t_instruction	*node_instructions_begin;
-	t_instruction	*node_instructions_last;
-	struct s_node	*possibilities;
-}	t_node;
+	int		ra;
+	int		rb;
+	int		rr;
+	int		rra;
+	int		rrb;
+	int		rrr;
+	int		sa;
+	int		sb;
+	int		ss;
+	int		pa;
+	int		pb;
+}	t_moves;
 
 typedef struct s_info
 {
@@ -53,7 +57,6 @@ typedef struct s_info
 	t_list	*last_b;
 	int		size_b;
 	t_list	*min_b;
-	t_node	*tree;
 }	t_info;
 
 void		ft_initinfo(t_info *info, int size);
@@ -64,6 +67,9 @@ void		ft_freelst(t_list *begin);
 int			ft_checknb(char *nb);
 long long	ft_atoll(const char *str);
 void		ft_checkdouble(t_info *info, int nb);
+t_moves		**ft_findtargets(t_info *info);
+void		execute_actions(t_info *info, t_moves *possibility);
+void		free_possibilities(t_moves **tab);
 void		ft_findwrongpos(t_info *info);
 void		ft_swapone(t_list **begin);
 void		ft_swapboth(t_info *info);
@@ -74,12 +80,12 @@ void		ft_rotateboth(t_info *info);
 void		ft_reverserotateone(t_list **begin, t_list **last);
 void		ft_reverserotateboth(t_info *info);
 int			ft_findclosest(t_info *info, t_list **unordered);
-int		canswapnext(t_info *info, t_list *unordered);
-int		canswapprev(t_info *info, t_list *unordered);
+int			canswapnext(t_info *info, t_list *unordered);
+int			canswapprev(t_info *info, t_list *unordered);
 int			ft_findnextvalid(t_list *begin);
 int			ft_findprevvalid(t_list *begin);
-void		ft_bringtofront(t_info *info, int dist, char stack);
-void		ft_pushinorder(t_info *info, int dist_a, int nb);
+void		ft_bringtofront(t_moves *possibility, char stack);
+void		ft_pushinorder(t_info *info, t_moves *possibility);
 void		ft_insertbtoa(t_info *info);
 void		ft_print_instruction(char *action, char stack);
 void		ft_finalrotation(t_info *info);
