@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 14:25:30 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/19 12:11:37 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void	ft_sortlist(t_info *info)
 {
 	while (info->unordered != 0)
 	{
-		ft_printlist(&info->begin_a, &info->last_a, 'A');
-		ft_printlist(&info->begin_b, &info->last_b, 'B');
+//		ft_printlist(&info->begin_a, &info->last_a, 'A');
+//		ft_printlist(&info->begin_b, &info->last_b, 'B');
 		if (info->size_a == 3)
 		{
 			ft_swapone(&info->begin_a);
@@ -121,15 +121,15 @@ void	ft_sortlist(t_info *info)
 		}
 		find_best_move(info);
 	}
-	ft_printlist(&info->begin_a, &info->last_a, 'A');
-	ft_printlist(&info->begin_b, &info->last_b, 'B');
-/*	if (info->size_b != 0)
+//	ft_printlist(&info->begin_a, &info->last_a, 'A');
+//	ft_printlist(&info->begin_b, &info->last_b, 'B');
+	if (info->size_b != 0)
 		ft_insertbtoa(info);
 	ft_finalrotation(info);
-	ft_printlist(&info->begin_a, &info->last_a, 'A');
-	ft_printlist(&info->begin_b, &info->last_b, 'B');
-	ft_freelst(info->begin_a);
-*/
+//	ft_printlist(&info->begin_a, &info->last_a, 'A');
+//	ft_printlist(&info->begin_b, &info->last_b, 'B');
+//	ft_freelst(info->begin_a);
+
 }
 
 int	main(int ac, char **av)

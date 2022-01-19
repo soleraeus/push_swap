@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/18 14:18:13 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/19 12:07:13 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,14 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_find_val.c \
 		./utils/ft_findclosest.c \
 		./utils/ft_print_instruction.c \
-		./utils/ft_insertbtoa.c \
 		./utils/ft_pushinorder.c \
 		./utils/canswap.c \
+		./utils/init_target.c \
+		./utils/ft_insertbtoa.c \
 		./utils/execute_actions.c \
 		./utils/free_possibilities.c \
 		push_swap.c
+
 
 OBJS:=   ${SRCS:.c=.o}
 

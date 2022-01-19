@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:31:19 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 12:49:48 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/19 11:50:35 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 			dist_a++;
 			dist_b++;
 		}
+		possibility->dist = dist_a;
 		ft_bringtofront(possibility, 'a');
 		possibility->dist = dist_b;
 		ft_bringtofront(possibility, 'b');
@@ -60,6 +61,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 			dist_a--;
 			dist_b--;
 		}
+		possibility->dist = dist_a;
 		ft_bringtofront(possibility, 'a');
 		possibility->dist = dist_b;
 		ft_bringtofront(possibility, 'b');
@@ -74,6 +76,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 			dist_a++;
 			dist_b++;
 		}
+		possibility->dist = dist_a;
 		ft_bringtofront(possibility, 'a');
 		possibility->dist = dist_b;
 		ft_bringtofront(possibility, 'b');
@@ -87,6 +90,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 			dist_a--;
 			dist_b--;
 		}
+		possibility->dist = dist_a;
 		ft_bringtofront(possibility, 'a');
 		possibility->dist = dist_b;
 		ft_bringtofront(possibility, 'b');
@@ -101,7 +105,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 		}
 		else
 		{
-			possibility->dist = dist_b;
+			possibility->dist = -(info->size_b - dist_b);
 			ft_bringtofront(possibility, 'b');
 		}
 	}

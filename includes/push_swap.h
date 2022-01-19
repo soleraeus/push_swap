@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 14:16:22 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/19 12:42:54 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <limits.h>
 # define WRONG_NUMBER "Error\n"
 # define WRONG_NUMBER_SIZE 6
+# define TARGET_NB 500
 
 typedef struct s_list
 {
@@ -69,6 +70,7 @@ long long	ft_atoll(const char *str);
 void		ft_checkdouble(t_info *info, int nb);
 t_moves		**ft_findtargets(t_info *info);
 void		execute_actions(t_info *info, t_moves *possibility);
+void		init_target(t_moves *possibility);
 void		free_possibilities(t_moves **tab);
 void		ft_findwrongpos(t_info *info);
 void		ft_swapone(t_list **begin);

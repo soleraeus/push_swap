@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 12:19:42 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/19 12:36:35 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ t_moves	**ft_findtargets(t_info *info)
 	t_list	*current_begin;
 	t_moves	**tab;
 
-	if (info->unordered < 20)
+	if (info->unordered < TARGET_NB)
 		tab = (t_moves **)malloc(sizeof(t_moves *) * (info->unordered + 1));
 	else
-		tab = (t_moves **)malloc(sizeof(t_moves *) * (21));
+		tab = (t_moves **)malloc(sizeof(t_moves *) * (TARGET_NB + 1));
 	if (!tab)
 		ft_throwerror(info);
 	found = 0;
@@ -57,11 +57,11 @@ t_moves	**ft_findtargets(t_info *info)
 		tab[found++] = add_possibility(info, info->begin_a, 0);
 	current_begin = info->begin_a->next;
 	current_last = info->last_a;
-	while (!(found == 20 || found == info->unordered))
+	while (!(found == TARGET_NB || found == info->unordered))
 	{
 		if (current_begin->streak == -1)
 			tab[found++] = add_possibility(info, current_begin, dist);
-		if (found == 20 || found == info->unordered)
+		if (found == TARGET_NB || found == info->unordered)
 			break ;
 		if (current_last->streak == -1)
 			tab[found++] = add_possibility(info, current_last, -dist);
