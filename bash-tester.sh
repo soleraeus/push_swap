@@ -3,7 +3,7 @@ x=1
 max=0
 maxargs=0
 make
-while [ $x -le 100 ]
+while [ $x -le 20000 ]
 do
 	ARG=`ruby -e "puts (1..500).to_a.shuffle.join(' ')"`
 	result=$(./push_swap $ARG | wc -l)
@@ -14,5 +14,5 @@ do
 	fi
 	x=$(( $x + 1 ))
 done
-echo "max number: $max"
-echo "$maxargs"
+echo "max number: $max" > results.txt
+echo "$maxargs" > args.txt
