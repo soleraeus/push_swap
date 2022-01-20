@@ -74,6 +74,7 @@ void	ft_pushorswap(t_info *info, t_moves *possibility)
 	tot_nb_moves(possibility);
 }
 
+/*
 t_moves	find_best_move_insert(t_info *info)
 {
 //	int		i;
@@ -84,7 +85,7 @@ t_moves	find_best_move_insert(t_info *info)
 	min = NULL;
 	tab = NULL;
 	tab = ft_findblocks(info);
-/*	i = 0;
+	i = 0;
 	while (tab[i])
 	{
 		ft_pushorswap(info, tab[i]);
@@ -100,10 +101,10 @@ t_moves	find_best_move_insert(t_info *info)
 		}
 		i++;
 	}
-	ret = *min;*/
+	ret = *min;
 	ret.target = NULL;
 	return (ret);
-}
+}*/
 
 t_moves	find_best_move_remove(t_info *info)
 {
@@ -138,11 +139,11 @@ t_moves	find_best_move_remove(t_info *info)
 void	ft_sortlist(t_info *info)
 {
 	t_moves possibility_remove;
-	t_moves	possibility_insert;
+//	t_moves	possibility_insert;
 
 	while (info->unordered != 0)
 	{
-		possibility_insert.target = NULL;
+//		possibility_insert.target = NULL;
 //		ft_printlist(&info->begin_a, &info->last_a, 'A');
 //		ft_printlist(&info->begin_b, &info->last_b, 'B');
 		possibility_remove = find_best_move_remove(info);
@@ -156,8 +157,8 @@ void	ft_sortlist(t_info *info)
 	if (info->size_b != 0)
 		ft_insertbtoa(info);
 	ft_finalrotation(info);
-	ft_printlist(&info->begin_a, &info->last_a, 'A');
-	ft_printlist(&info->begin_b, &info->last_b, 'B');
+//	ft_printlist(&info->begin_a, &info->last_a, 'A');
+//	ft_printlist(&info->begin_b, &info->last_b, 'B');
 	ft_freelst(info->begin_a);
 
 }

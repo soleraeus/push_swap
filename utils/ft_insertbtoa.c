@@ -19,7 +19,7 @@ int	ft_findinsertpos(t_info *info, int nb)
 	t_list	*current_begin;
 
 	dist = 0;
-	current_begin = info->begin_a->next;
+	current_begin = info->begin_a;
 	while (1)
 	{
 		if (current_begin->prev->nb < nb && (current_begin->nb > nb

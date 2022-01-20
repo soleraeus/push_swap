@@ -16,11 +16,9 @@
 void	ft_pushinorder(t_info *info, t_moves *possibility)
 {
 	int		nb;
-	int		dist_a;
 	int		dist_b;
 	t_list	*current;
 
-	dist_a = possibility->dist;
 	nb = possibility->nb;
 	if (info->size_b == 0 || info->size_b == 1)
 	{
