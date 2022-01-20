@@ -6,17 +6,22 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 15:40:46 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 12:48:51 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/20 20:03:11 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
-void	ft_bringtofront(t_moves *possibility, char stack)
+void	ft_bringtofront(t_info *info, t_moves *possibility, char stack)
 {
 	int	dist;
 
 	dist = possibility->dist;
+	if (stack == 'a' && (info->size_a - dist) < dist)
+		dist = -(info->size_a - dist);
+	if  (stack == 'b' && (info->size_b - dist) < dist)
+		dist = -(info->size_b - dist);
 	while (dist < 0)
 	{
 		if 	(stack == 'a')

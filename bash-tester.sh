@@ -1,6 +1,7 @@
 #! /bin/bash
 x=1
 max=0
+maxargs=0
 make
 while [ $x -le 100 ]
 do
@@ -9,7 +10,9 @@ do
 	if [ $result -gt $max ]
 	then
 		max=$result
+		maxargs=$ARG
 	fi
 	x=$(( $x + 1 ))
 done
-echo "max number: $max" > result.txt
+echo "max number: $max"
+echo "$maxargs"

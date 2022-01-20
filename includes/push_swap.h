@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/19 12:42:54 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/20 19:38:15 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ typedef struct s_list
 typedef struct s_moves
 {
 	t_list	*target;
+	t_list	*block_end;
 	int		dist;
+	int		dist_end;
 	int		nb;
 	int		nb_instructions;
 	int		ra;
@@ -60,6 +62,10 @@ typedef struct s_info
 	t_list	*min_b;
 }	t_info;
 
+void	ft_printlist(t_list **begin, t_list **last, char c);
+
+void		optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
+int			getdist(t_list *begin, int size, t_list *target);
 void		ft_initinfo(t_info *info, int size);
 void		ft_throwerror(t_info *info);
 void		ft_lstaddnbr(t_info *info, char *av);
@@ -68,7 +74,9 @@ void		ft_freelst(t_list *begin);
 int			ft_checknb(char *nb);
 long long	ft_atoll(const char *str);
 void		ft_checkdouble(t_info *info, int nb);
+void		findindex(t_info *info);
 t_moves		**ft_findtargets(t_info *info);
+t_moves		**ft_findblocks(t_info *info);
 void		execute_actions(t_info *info, t_moves *possibility);
 void		init_target(t_moves *possibility);
 void		free_possibilities(t_moves **tab);
@@ -86,7 +94,7 @@ int			canswapnext(t_info *info, t_list *unordered);
 int			canswapprev(t_info *info, t_list *unordered);
 int			ft_findnextvalid(t_list *begin);
 int			ft_findprevvalid(t_list *begin);
-void		ft_bringtofront(t_moves *possibility, char stack);
+void		ft_bringtofront(t_info *info, t_moves *possibility, char stack);
 void		ft_pushinorder(t_info *info, t_moves *possibility);
 void		ft_insertbtoa(t_info *info);
 void		ft_print_instruction(char *action, char stack);

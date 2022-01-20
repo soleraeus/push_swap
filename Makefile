@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/19 12:07:13 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/20 19:36:07 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_lstaddnbr.c \
 		./utils/ft_throwerror.c \
 		./utils/ft_checkdouble.c \
+		./utils/findindex.c \
 		./utils/ft_rotate.c \
 		./utils/ft_pushandswap.c \
 		./utils/ft_finalrotation.c \
@@ -32,6 +33,7 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_insertbtoa.c \
 		./utils/execute_actions.c \
 		./utils/free_possibilities.c \
+		./utils/optimize_rotations.c \
 		push_swap.c
 
 

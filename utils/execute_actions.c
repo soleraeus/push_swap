@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:01:01 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/18 14:12:57 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/20 12:41:45 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute_actions(t_info *info, t_moves *possibility)
 {
+	possibility->target->streak = 1;
 	while (possibility->ra)
 	{
 		ft_rotateone(&info->begin_a, &info->last_a);
