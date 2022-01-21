@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/20 19:08:08 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:14:53 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_moves	*add_possibility(t_info *info, t_list *target, int dist)
 	possibility->target = target;
 	possibility->block_end = NULL;
 	possibility->dist = dist;
-	possibility->dist_end = 0;
+	possibility->size_block = 1;
 	possibility->nb = target->nb;
 	possibility->nb_instructions = 0;
 	possibility->ra = 0;
@@ -99,6 +99,7 @@ int	getdist(t_list *begin, int size, t_list *target)
 	int		dist;
 	t_list	*current;
 
+	(void)size;
 	dist = 0;
 	current = begin;
 	while (current != target)
@@ -106,10 +107,7 @@ int	getdist(t_list *begin, int size, t_list *target)
 		dist++;
 		current = current->next;
 	}
-	if ((size - dist) < dist)
-		return (dist);
-	else
-		return (-(size - dist));
+	return (dist);
 }
 
 t_list	*find_end_of_block(t_list *begin)
@@ -127,17 +125,22 @@ void	addblocks(t_info *info, t_moves **tab, t_list *first, int nb_blocks)
 	int		index;
 	t_list	*current;
 
-	write(1, "OK\n", 3);
-	printf("nb blocks: %d\n", nb_blocks);
 	index = 0;
 	tab[index] = add_possibility(info, first, getdist(info->begin_b, info->size_b, first));
 	tab[index]->block_end = find_end_of_block(first);
+	tab[index]->dist = getdist(info->begin_b, info->size_b, tab[index]->target);
+	if (tab[index]->dist != 0)
+		tab[index]->size_block += (info->size_b - tab[index]->dist) + getdist(info->begin_b, info->size_b, tab[index]->block_end);
+	else
+		tab[index]->size_block += getdist(info->begin_b, info->size_b, tab[index]->block_end);
 	index++;
 	while (index < nb_blocks)
 	{
 		current = tab[(index - 1)]->block_end->next;
 		tab[index] = add_possibility(info, current, getdist(info->begin_b, info->size_b, current));
 		tab[index]->block_end = find_end_of_block(current);
+		tab[index]->dist = getdist(info->begin_b, info->size_b, tab[index]->target);
+		tab[index]->size_block += getdist(info->begin_b, info->size_b, tab[index]->block_end) - tab[index]->dist;
 		index++;
 	}
 }
@@ -147,19 +150,11 @@ t_moves	**ft_findblocks(t_info *info)
 	int		nb_blocks;
 	t_list	*first;
 	t_moves	**tab;
-	int	i = 0;
 
 	nb_blocks = create_insert_pos_tab(info, &tab, &first);
 	if (!tab)
 		ft_throwerror(info);
 	tab[nb_blocks] = NULL;
 	addblocks(info, tab, first, nb_blocks);
-	ft_printlist(&info->begin_b, &info->last_b, 'B');
-	while (tab[i])
-	{
-		printf("Begin of block: %d\n", tab[i]->target->nb);
-		printf("End of block: %d\n", tab[i]->block_end->nb);
-		i++;
-	}
 	return (tab);
 }

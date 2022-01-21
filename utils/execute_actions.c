@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:01:01 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/20 12:41:45 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:02:20 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,26 @@ void	execute_actions(t_info *info, t_moves *possibility)
 		ft_reverserotateboth(info);
 		possibility->rrr -= 1;
 	}
-	if (possibility->sa)
+	while (possibility->sa)
 	{
 		ft_swapone(&info->begin_a);
 		write(1, "sa\n", 3);
+		possibility->sa -= 1;
 	}
-	if (possibility->sb)
+	while (possibility->sb)
 	{
 		ft_swapone(&info->begin_b);
 		write(1, "sb\n", 3);
+		possibility->sb -= 1;
 	}
-	if (possibility->pa)
+	while (possibility->pa)
+	{
 		ft_pusha(info);
+		possibility->pa -= 1;
+	}
 	if (possibility->pb)
+	{
 		ft_pushb(info);
+		possibility->pb -= 1;
+	}
 }
