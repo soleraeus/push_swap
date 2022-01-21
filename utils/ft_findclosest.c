@@ -150,18 +150,11 @@ t_moves	**ft_findblocks(t_info *info)
 	int		nb_blocks;
 	t_list	*first;
 	t_moves	**tab;
-	int		i;
 
 	nb_blocks = create_insert_pos_tab(info, &tab, &first);
 	if (!tab)
 		ft_throwerror(info);
 	tab[nb_blocks] = NULL;
 	addblocks(info, tab, first, nb_blocks);
-	i = 0;
-	while (tab[i])
-	{
-		printf("Block begin: %d, block end: %d\n", tab[i]->target->nb, tab[i]->block_end->nb);
-		i++;
-	}
 	return (tab);
 }

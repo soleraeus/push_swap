@@ -68,12 +68,32 @@ void	ft_pushb(t_info *info)
 
 void	ft_pusha(t_info *info)
 {
+	t_list	*min;
 	t_list	*swap;
+	t_list	*current;
 
 	ft_print_instruction("p", 'a');
 	if (info->size_b == 0)
 		return ;
 	swap = info->begin_b;
+	if (swap == info->min_b)
+	{
+		if (info->size_b == 0)
+			info->min_b = NULL;
+		else
+		{
+			current = swap->next;
+			min = current;
+			while (current != swap)
+			{
+				if (current->nb < min->nb)
+					min = current;
+				current = current->next;
+			}
+			info->min_b = min;
+		}
+
+	}
 	if (info->size_b == 1)
 	{
 		info->begin_b = NULL;

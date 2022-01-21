@@ -29,17 +29,18 @@ void	find_insert_pos_a(t_info *info, t_moves *move, t_list **lower, t_list **upp
 		return ;
 	}
 	current = info->begin_a;
-	info->last_a->next = NULL;
-	while (current && (current->index != (move->target->index + 1)
-		|| current->index != (move->block_end->index - 1)))
+	while (current != info->last_a)
 	{
 		if (current->streak != -1 && current->index == (move->target->index + 1))
 			*upper = current;
-		if (current->streak != -1 && current->index == (move->block_end->index - 1))
+		else if (current->streak != -1 && current->index == (move->block_end->index - 1))
 			*lower = current;
 		current = current->next;
 	}
-	info->last_a->next = info->begin_a;
+	if (current->streak != -1 && current->index == (move->target->index + 1))
+		*upper = current;
+	else if (current->streak != -1 && current->index == (move->block_end->index - 1))
+		*lower = current;
 	if (*lower)
 		*lower = (*lower)->next;
 }

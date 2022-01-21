@@ -25,11 +25,11 @@ void	ft_printlist(t_list **begin, t_list **last, char c)
 	write(1, "\n", 1);
 	while (current && current != *last)
 	{
-		printf("index: %d - %d\n", current->index, current->nb);
+		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 		current = current->next;
 	}
 	if (*last)
-		printf("index: %d - %d\n", current->index, current->nb);
+		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 	return ;
 }
 
@@ -83,8 +83,6 @@ void	find_least_nb_moves(t_info *info, t_moves *move)
 	lower = NULL;
 	upper = NULL;
 	upper_version = *move;
-//	printf("nb_upper: %d\n", upper_version.nb);
-//	print_possibility(move);
 	find_insert_pos_a(info, move, &lower, &upper);
 	if (upper)
 	{
@@ -92,8 +90,6 @@ void	find_least_nb_moves(t_info *info, t_moves *move)
 		upper_version.pa = 1;
 		tot_nb_moves(&upper_version);
 		upper_version.pa = upper_version.size_block;
-	//	printf("upper\n");
-	//	print_possibility(&upper_version);
 	}
 	if (lower)
 	{
@@ -101,21 +97,16 @@ void	find_least_nb_moves(t_info *info, t_moves *move)
 		move->pa = 1;
 		tot_nb_moves(move);
 		move->pa = move->size_block;
-	//	printf("lower\n");
-	//	print_possibility(move);
 	}
 	if (upper && lower)
 	{
 		if (upper_version.nb_instructions < move->nb_instructions)
 			*move = upper_version;
-		print_possibility(move);
 	}
-/*	else if (upper)
+	else if (upper)
 		*move = upper_version;
 	else if (!lower)
 		move->target = NULL;
-*/
-	move->target = NULL;
 }
 
 t_moves	find_best_move_insert(t_info *info)
@@ -141,9 +132,6 @@ t_moves	find_best_move_insert(t_info *info)
 				&& tab[i]->nb > ret.nb)
 				ret = *(tab[i]);
 		}
-//		if (tab[i]->target)
-//			printf("Block begin: %d, block end: %d\n", tab[i]->target->nb, tab[i]->block_end->nb);
-//		print_possibility(tab[i]);
 		i++;
 	}
 	return (free_possibilities(tab), ret);
@@ -151,7 +139,7 @@ t_moves	find_best_move_insert(t_info *info)
 
 t_moves	find_best_move_remove(t_info *info)
 {
-	int		i;
+	int	i;
 	t_moves	ret;
 	t_moves	*min;
 	t_moves	**tab;
@@ -164,7 +152,7 @@ t_moves	find_best_move_remove(t_info *info)
 	{
 		ft_pushorswap(info, tab[i]);
 		if (i == 0)
-		min = tab[i];
+			min = tab[i];
 		else
 		{
 			if (tab[i]->nb_instructions < min->nb_instructions)
@@ -212,8 +200,8 @@ void	ft_sortlist(t_info *info)
 	if (info->size_b != 0)
 		ft_insertbtoa(info);
 	ft_finalrotation(info);
-	ft_printlist(&info->begin_a, &info->last_a, 'A');
-	ft_printlist(&info->begin_b, &info->last_b, 'B');
+//	ft_printlist(&info->begin_a, &info->last_a, 'A');
+//	ft_printlist(&info->begin_b, &info->last_b, 'B');
 	ft_freelst(info->begin_a);
 
 }
