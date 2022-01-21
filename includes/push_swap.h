@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/20 19:38:15 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:06:20 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_moves
 	t_list	*target;
 	t_list	*block_end;
 	int		dist;
-	int		dist_end;
+	int		size_block;
 	int		nb;
 	int		nb_instructions;
 	int		ra;
@@ -73,6 +73,7 @@ int			ft_isdigit(int c);
 void		ft_freelst(t_list *begin);
 int			ft_checknb(char *nb);
 long long	ft_atoll(const char *str);
+int			tot_nb_moves(t_moves *possibility);
 void		ft_checkdouble(t_info *info, int nb);
 void		findindex(t_info *info);
 t_moves		**ft_findtargets(t_info *info);

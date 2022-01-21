@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:13:34 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/20 19:42:48 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:14:42 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,28 @@ int	ft_findinsertpos(t_info *info, int nb)
 
 void	ft_insertbtoa(t_info *info)
 {
-	t_moves	*target;
+	int		i;
+	t_moves	*min;
+	t_moves	**tab;
 	
-	target = (t_moves *)malloc(sizeof(t_moves));
-	if (!target)
-		ft_throwerror(info);
 	while (info->size_b != 0)
 	{
-		target->target = info->begin_b;
-		target->nb = target->target->nb;
-		target->dist = ft_findinsertpos(info, target->nb);
-		init_target(target);
-		ft_bringtofront(info, target, 'a');
-		target->pa = 1;
-		execute_actions(info, target);
+		tab = ft_findblocks(info);
+		i = 0;
+		min = NULL;
+		while (tab[i])
+		{
+			optimize_rotations(info, tab[i], ft_findinsertpos(info, tab[i]->nb), tab[i]->dist);
+			tab[i]->pa += 1;
+			tot_nb_moves(tab[i]);
+			if (!min)
+				min = tab[i];
+			else if (tab[i]->nb_instructions < min->nb_instructions)
+				min = tab[i];
+			i++;
+		}
+		min->pa = min->size_block;
+		execute_actions(info, min);
+		free_possibilities(tab);
 	}
-	free(target);
 }
