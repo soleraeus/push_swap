@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/21 12:02:34 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 19:38:35 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	ft_printlist(t_list **begin, t_list **last, char c)
 
 void	print_possibility(t_moves *possibility)
 {
-	printf("nb: %d, ra: %d, rb: %d, rr: %d, rra: %d, rrb: %d, rrr: %d, sa: %d, sb: %d, ss: %d, pa: %d, pb: %d\n", \
-			possibility->nb, possibility->ra, possibility->rb, possibility->rr, possibility->rra, possibility->rrb, possibility->rrr, possibility->sa, possibility->sb, possibility->ss, possibility->pa, possibility->pb);
+	printf("nb: %d, nb instructions: %d,  ra: %d, rb: %d, rr: %d, rra: %d, rrb: %d, rrr: %d, sa: %d, sb: %d, ss: %d, pa: %d, pb: %d\n", \
+			possibility->nb, possibility->nb_instructions, possibility->ra, possibility->rb, possibility->rr, possibility->rra, possibility->rrb, possibility->rrr, possibility->sa, possibility->sb, possibility->ss, possibility->pa, possibility->pb);
 }
 
 int	tot_nb_moves(t_moves *possibility)
@@ -74,37 +74,80 @@ void	ft_pushorswap(t_info *info, t_moves *possibility)
 	tot_nb_moves(possibility);
 }
 
-/*
+void	find_least_nb_moves(t_info *info, t_moves *move)
+{
+	t_list	*lower;
+	t_list	*upper;
+	t_moves	upper_version;;
+
+	lower = NULL;
+	upper = NULL;
+	upper_version = *move;
+//	printf("nb_upper: %d\n", upper_version.nb);
+//	print_possibility(move);
+	find_insert_pos_a(info, move, &lower, &upper);
+	if (upper)
+	{
+		optimize_rotations(info, &upper_version, getdist(info->begin_a, info->size_a, upper), upper_version.dist);
+		upper_version.pa = 1;
+		tot_nb_moves(&upper_version);
+		upper_version.pa = upper_version.size_block;
+	//	printf("upper\n");
+	//	print_possibility(&upper_version);
+	}
+	if (lower)
+	{
+		optimize_rotations(info, move, getdist(info->begin_a, info->size_a, lower), move->dist);
+		move->pa = 1;
+		tot_nb_moves(move);
+		move->pa = move->size_block;
+	//	printf("lower\n");
+	//	print_possibility(move);
+	}
+	if (upper && lower)
+	{
+		if (upper_version.nb_instructions < move->nb_instructions)
+			*move = upper_version;
+		print_possibility(move);
+	}
+/*	else if (upper)
+		*move = upper_version;
+	else if (!lower)
+		move->target = NULL;
+*/
+	move->target = NULL;
+}
+
 t_moves	find_best_move_insert(t_info *info)
 {
-//	int		i;
+	int		i;
 	t_moves	ret;
-	t_moves	*min;
 	t_moves	**tab;
 	
-	min = NULL;
 	tab = NULL;
 	tab = ft_findblocks(info);
+	ret.target = NULL;
 	i = 0;
 	while (tab[i])
 	{
-		ft_pushorswap(info, tab[i]);
-		if (i == 0)
-		min = tab[i];
+		find_least_nb_moves(info, tab[i]);
+		if (ret.target == NULL && tab[i]->target != NULL)
+			ret = *(tab[i]);
 		else
 		{
-			if (tab[i]->nb_instructions < min->nb_instructions)
-				min = tab[i];
-			else if (tab[i]->nb_instructions == min->nb_instructions
-				&& tab[i]->nb < min->nb)
-				min = tab[i];
+			if (tab[i]->target != NULL && tab[i]->nb_instructions < ret.nb_instructions)
+				ret = *(tab[i]);
+			else if (tab[i]->target != NULL && tab[i]->nb_instructions == ret.nb_instructions
+				&& tab[i]->nb > ret.nb)
+				ret = *(tab[i]);
 		}
+//		if (tab[i]->target)
+//			printf("Block begin: %d, block end: %d\n", tab[i]->target->nb, tab[i]->block_end->nb);
+//		print_possibility(tab[i]);
 		i++;
 	}
-	ret = *min;
-	ret.target = NULL;
-	return (ret);
-}*/
+	return (free_possibilities(tab), ret);
+}
 
 t_moves	find_best_move_remove(t_info *info)
 {
@@ -139,26 +182,38 @@ t_moves	find_best_move_remove(t_info *info)
 void	ft_sortlist(t_info *info)
 {
 	t_moves possibility_remove;
-//	t_moves	possibility_insert;
+	t_moves	possibility_insert;
 
 	while (info->unordered != 0)
 	{
-//		possibility_insert.target = NULL;
+		possibility_insert.target = NULL;
 //		ft_printlist(&info->begin_a, &info->last_a, 'A');
 //		ft_printlist(&info->begin_b, &info->last_b, 'B');
 		possibility_remove = find_best_move_remove(info);
-//		if (info->size_b)
-//			possibility_insert = find_best_move_insert(info);
-		execute_actions(info, &possibility_remove);
-		info->unordered -= 1;
+		if (info->size_b)
+		{
+			possibility_insert = find_best_move_insert(info);
+			if (possibility_insert.target != NULL && possibility_insert.nb_instructions < possibility_remove.nb_instructions)
+				execute_actions(info, &possibility_insert);
+			else
+			{
+				execute_actions(info, &possibility_remove);
+				info->unordered -= 1;
+			}
+		}
+		else
+		{
+			execute_actions(info, &possibility_remove);
+			info->unordered -= 1;
+		}
 	}
 //	ft_printlist(&info->begin_a, &info->last_a, 'A');
 //	ft_printlist(&info->begin_b, &info->last_b, 'B');
 	if (info->size_b != 0)
 		ft_insertbtoa(info);
 	ft_finalrotation(info);
-//	ft_printlist(&info->begin_a, &info->last_a, 'A');
-//	ft_printlist(&info->begin_b, &info->last_b, 'B');
+	ft_printlist(&info->begin_a, &info->last_a, 'A');
+	ft_printlist(&info->begin_b, &info->last_b, 'B');
 	ft_freelst(info->begin_a);
 
 }

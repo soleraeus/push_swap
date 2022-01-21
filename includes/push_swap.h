@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/21 12:06:20 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 19:20:19 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_info
 
 void	ft_printlist(t_list **begin, t_list **last, char c);
 
+void		find_insert_pos_a(t_info *info, t_moves *move, t_list **lower, t_list **upper);
 void		optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
 int			getdist(t_list *begin, int size, t_list *target);
 void		ft_initinfo(t_info *info, int size);

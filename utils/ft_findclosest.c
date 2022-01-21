@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/21 12:14:53 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/21 18:58:51 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,18 @@ t_moves	**ft_findblocks(t_info *info)
 	int		nb_blocks;
 	t_list	*first;
 	t_moves	**tab;
+	int		i;
 
 	nb_blocks = create_insert_pos_tab(info, &tab, &first);
 	if (!tab)
 		ft_throwerror(info);
 	tab[nb_blocks] = NULL;
 	addblocks(info, tab, first, nb_blocks);
+	i = 0;
+	while (tab[i])
+	{
+		printf("Block begin: %d, block end: %d\n", tab[i]->target->nb, tab[i]->block_end->nb);
+		i++;
+	}
 	return (tab);
 }

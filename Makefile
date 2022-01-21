@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/20 19:36:07 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/21 18:27:57 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/execute_actions.c \
 		./utils/free_possibilities.c \
 		./utils/optimize_rotations.c \
+		./utils/find_insert_pos_a.c \
 		push_swap.c
 
 
