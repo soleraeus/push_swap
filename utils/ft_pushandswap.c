@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 03:13:44 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 07:11:41 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_pushb(t_info *info)
 {
 	t_list	*swap;
 
-	ft_print_instruction("p", 'b');
 	if (info->size_a == 0)
 		return ;
 	swap = info->begin_a;
@@ -72,7 +71,6 @@ void	ft_pusha(t_info *info)
 	t_list	*swap;
 	t_list	*current;
 
-	ft_print_instruction("p", 'a');
 	if (info->size_b == 0)
 		return ;
 	swap = info->begin_b;

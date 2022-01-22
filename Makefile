@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/22 05:26:30 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/22 08:25:59 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/ft_bringtopos.c \
 		./utils/ft_find_val.c \
 		./utils/ft_findclosest.c \
-		./utils/ft_print_instruction.c \
 		./utils/ft_pushinorder.c \
 		./utils/canswap.c \
 		./utils/init_target.c \
@@ -34,8 +33,9 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/execute_actions.c \
 		./utils/free_possibilities.c \
 		./utils/optimize_rotations.c \
-		./utils/find_insert_pos_a.c \
 		./utils/findmaxsorted.c \
+		./utils/simulate_actions.c \
+		./utils/add_instruction.c \
 		push_swap.c
 
 

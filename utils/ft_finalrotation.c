@@ -6,35 +6,23 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:35:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/19 12:10:12 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 08:31:55 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_finalrotation(t_info *info)
+t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions)
 {
-	int		iteration;
-	t_list	*current;
+	t_moves	*new;
 
-	while (info->begin_a != info->min)
-	{
-		iteration = 0;
-		current = info->begin_a;
-		while (current != info->min)
-		{
-			current = current->next;
-			iteration++;
-		}
-		if (iteration > info->size_a / 2)
-		{
-			write(1, "rra\n", 4);
-			ft_reverserotateone(&info->begin_a, &info->last_a);
-		}
-		else
-		{
-			write(1, "ra\n", 3);
-			ft_rotateone(&info->begin_a, &info->last_a);
-		}
-	}
+	new = (t_moves *)malloc(sizeof(t_moves));
+	new->dist = getdist(info->begin_a, info->size_a, info->min);
+	if (!new->dist)
+		return (free(new), instructions);
+	new->target = info->min;
+	ft_bringtofront(info, new, 'a');
+	execute_actions(info, new);
+	instructions = add_instruction(instructions, new);
+	return (instructions);
 }

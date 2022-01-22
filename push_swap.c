@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 05:59:29 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 08:29:56 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,41 +74,6 @@ void	ft_pushorswap(t_info *info, t_moves *possibility)
 	tot_nb_moves(possibility);
 }
 
-void	find_least_nb_moves(t_info *info, t_moves *move)
-{
-	t_list	*lower;
-	t_list	*upper;
-	t_moves	upper_version;;
-
-	lower = NULL;
-	upper = NULL;
-	upper_version = *move;
-	find_insert_pos_a(info, move, &lower, &upper);
-	if (upper)
-	{
-		optimize_rotations(info, &upper_version, getdist(info->begin_a, info->size_a, upper), upper_version.dist);
-		upper_version.pa = 1;
-		tot_nb_moves(&upper_version);
-		upper_version.pa = upper_version.size_block;
-	}
-	if (lower)
-	{
-		optimize_rotations(info, move, getdist(info->begin_a, info->size_a, lower), move->dist);
-		move->pa = 1;
-		tot_nb_moves(move);
-		move->pa = move->size_block;
-	}
-	if (upper && lower)
-	{
-		if (upper_version.nb_instructions < move->nb_instructions)
-			*move = upper_version;
-	}
-	else if (upper)
-		*move = upper_version;
-	else if (!lower)
-		move->target = NULL;
-}
-
 t_list	*can_push_back(t_info *info, t_moves *move)
 {
 	t_list	*current;
@@ -127,131 +92,136 @@ t_list	*can_push_back(t_info *info, t_moves *move)
 	return (NULL);
 }
 
-t_moves	find_best_move_insert(t_info *info)
+t_moves	*find_best_move_insert(t_info *info)
 {
 	int		i;
 	t_list	*loc_a;
-	t_moves	ret;
+	t_moves	*ret;
 	t_moves	**tab;
 	
 	tab = NULL;
 	loc_a = NULL;
 	tab = ft_findblocks(info);
-	ret.target = NULL;
+	ret = (t_moves *)malloc(sizeof(t_moves));
+	ret->target = NULL;
 	i = 0;
 	while (tab[i])
 	{
 		loc_a = can_push_back(info, tab[i]);
 		if (loc_a)
 		{
-			ret = *(tab[i]);
+			*ret = *(tab[i]);
 			break ;
 		}
 		i++;
 	}
-	if (ret.target)
+	if (ret->target)
 	{
-//		printf("found one\n");
-		optimize_rotations(info, &ret, getdist(info->begin_a, info->size_a, loc_a), ret.dist);
-		ret.pa = 1;
-		tot_nb_moves(&ret);
-		ret.pa = ret.size_block;
+		optimize_rotations(info, ret, getdist(info->begin_a, info->size_a, loc_a), ret->dist);
+		ret->pa = 1;
+		tot_nb_moves(ret);
+		ret->pa = ret->size_block;
 	}		
 	return (free_possibilities(tab), ret);
 }
 
-t_moves	find_best_move_remove(t_info *info)
+t_moves	*find_best_move_remove(t_info *info)
 {
 	int	i;
-	t_moves	ret;
-	t_moves	*min;
+	t_moves	*ret;
 	t_moves	**tab;
 	
-	min = NULL;
 	tab = NULL;
+	ret = (t_moves *)malloc(sizeof(t_moves));
 	tab = ft_findtargets(info);
 	i = 0;
 	while (tab[i])
 	{
 		ft_pushorswap(info, tab[i]);
 		if (i == 0)
-			min = tab[i];
+			*ret = *(tab[i]);
 		else
 		{
-			if (tab[i]->nb_instructions < min->nb_instructions)
-				min = tab[i];
-			else if (tab[i]->nb_instructions == min->nb_instructions
-				&& tab[i]->nb > min->nb)
-				min = tab[i];
+			if (tab[i]->nb_instructions < ret->nb_instructions)
+				*ret = *(tab[i]);
+			else if (tab[i]->nb_instructions == ret->nb_instructions
+				&& tab[i]->nb > ret->nb)
+				*ret = *(tab[i]);
 		}
 		i++;
 	}
-	ret = *min;
 	return (free_possibilities(tab), ret);
 }
 
-void	ft_sortlist(t_info *info)
+t_instructions	*ft_sortlist_insert(t_info *info)
 {
-	t_moves possibility_remove;
-	t_moves	possibility_insert;
+	t_instructions	*instructions;
+	t_moves 		*possibility_remove;
+	t_moves			*possibility_insert;
 
+	instructions = NULL;
 	while (info->unordered != 0)
 	{
-		possibility_insert.target = NULL;
-//		ft_printlist(&info->begin_a, &info->last_a, 'A');
-//		ft_printlist(&info->begin_b, &info->last_b, 'B');
+		possibility_insert = NULL;
 		possibility_remove = find_best_move_remove(info);
 		if (info->size_b)
 		{
 			possibility_insert = find_best_move_insert(info);
-			if (possibility_insert.target != NULL && possibility_insert.nb_instructions < possibility_remove.nb_instructions)
+			if (possibility_insert->target != NULL && possibility_insert->nb_instructions < possibility_remove->nb_instructions)
 			{
-				info->maxsorted = possibility_insert.block_end;
-				execute_actions(info, &possibility_insert);
+				info->maxsorted = possibility_insert->block_end;
+				execute_actions(info, possibility_insert);
+				instructions = add_instruction(instructions, possibility_insert);
+				free(possibility_remove);
 			}
 			else
 			{
-				execute_actions(info, &possibility_remove);
+				execute_actions(info, possibility_remove);
+				instructions = add_instruction(instructions, possibility_remove);
+				free(possibility_insert);
 				info->unordered -= 1;
 			}
 		}
 		else
 		{
-			execute_actions(info, &possibility_remove);
+			execute_actions(info, possibility_remove);
+			instructions = add_instruction(instructions, possibility_remove);
 			info->unordered -= 1;
 		}
 	}
-//	ft_printlist(&info->begin_a, &info->last_a, 'A');
-//	ft_printlist(&info->begin_b, &info->last_b, 'B');
 	if (info->size_b != 0)
-		ft_insertbtoa(info);
-	ft_finalrotation(info);
-//	ft_printlist(&info->begin_a, &info->last_a, 'A');
-//	ft_printlist(&info->begin_b, &info->last_b, 'B');
+		instructions = ft_insertbtoa(info, instructions);
+	instructions = ft_finalrotation(info, instructions);
 	ft_freelst(info->begin_a);
-
+	return (instructions);
 }
 
 int	main(int ac, char **av)
 {
-	t_info	info;
+//	int				i;
+	t_info			*info;
+	t_instructions	*min;
+//	t_instructions	*current;
 
-	ft_initinfo(&info, (ac - 1));
+	info = (t_info *)malloc(sizeof(t_info) * 4);
+	if (!info)
+		return (1);
+	ft_initinfo(&(info[0]), (ac - 1));
 	if (ac == 1)
 		return (0);
 	while (ac-- > 1)
-		ft_lstaddnbr(&info, av[ac]);
-	if (info.size_a == 1)
-		return (free(info.begin_a), 0);
-	findindex(&info);
-	findmaxsorted(&info);
-	info.begin_a->prev = info.last_a;
-	info.last_a->next = info.begin_a;
-	ft_findwrongpos(&info);
-	if (info.unordered == 0)
-		return (ft_finalrotation(&info), ft_freelst(info.begin_a), 0);
+		ft_lstaddnbr(&(info[0]), av[ac]);
+	if (info[0].size_a == 1)
+		return (free(info[0].begin_a), 0);
+	findindex(&(info[0]));
+	findmaxsorted(&(info[0]));
+	info[0].begin_a->prev = info[0].last_a;
+	info[0].last_a->next = info[0].begin_a;
+	ft_findwrongpos(&(info[0]));
+	if (info[0].unordered == 0)
+		return (ft_finalrotation(&(info[0]), NULL), ft_freelst(info[0].begin_a), 0);
 //	ft_printlist(&info.begin_a, &info.last_a, 'A');
 //	printf("%d\n", info.min->streak);
-	ft_sortlist(&info);
+	min = ft_sortlist_insert(&(info[0]));
 	return (0);
 }
