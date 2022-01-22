@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/21 19:20:19 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 04:04:14 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ typedef struct s_info
 	t_list	*begin_a;
 	t_list	*last_a;
 	t_list	*min;
+	t_list	*maxsorted;
 	int		size_a;
 	int		unordered;
 	t_list	*begin_b;
 	t_list	*last_b;
 	int		size_b;
 	t_list	*min_b;
+	int		tot_size;
 }	t_info;
 
 void	ft_printlist(t_list **begin, t_list **last, char c);

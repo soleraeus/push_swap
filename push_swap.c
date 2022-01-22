@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/21 19:38:35 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 04:29:24 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,31 +109,48 @@ void	find_least_nb_moves(t_info *info, t_moves *move)
 		move->target = NULL;
 }
 
+t_list	*can_push_back(t_info *info, t_moves *move)
+{
+	t_list	*current;
+
+	if (info->maxsorted == min)
+	{
+		if (move->target->index == (info->tot_size - 1))
+			return (info->min);
+		return (NULL);
+	}
+	current = info->maxsorted;
+	while (current->prev->index == (current->index - 1))
+		current = current->prev;
+	if (move->target->index == (current->index - 1))
+		return (current);
+	return (NULL);
+}
+
 t_moves	find_best_move_insert(t_info *info)
 {
 	int		i;
+	t_list	loc_a;
 	t_moves	ret;
 	t_moves	**tab;
 	
 	tab = NULL;
+	loc_a = NULL;
 	tab = ft_findblocks(info);
 	ret.target = NULL;
 	i = 0;
 	while (tab[i])
 	{
-		find_least_nb_moves(info, tab[i]);
-		if (ret.target == NULL && tab[i]->target != NULL)
-			ret = *(tab[i]);
-		else
+		loc_a = can_push_back(info, tab[i]);
+		if (loc_a)
 		{
-			if (tab[i]->target != NULL && tab[i]->nb_instructions < ret.nb_instructions)
-				ret = *(tab[i]);
-			else if (tab[i]->target != NULL && tab[i]->nb_instructions == ret.nb_instructions
-				&& tab[i]->nb > ret.nb)
-				ret = *(tab[i]);
+			ret = *(tab[i]);
+			break ;
 		}
 		i++;
 	}
+	if (ret.target)
+		
 	return (free_possibilities(tab), ret);
 }
 
@@ -218,6 +235,7 @@ int	main(int ac, char **av)
 	if (info.size_a == 1)
 		return (free(info.begin_a), 0);
 	findindex(&info);
+	findmaxsorted(&info);
 	info.begin_a->prev = info.last_a;
 	info.last_a->next = info.begin_a;
 	ft_findwrongpos(&info);
