@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 04:29:24 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/22 05:59:29 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_list	*can_push_back(t_info *info, t_moves *move)
 {
 	t_list	*current;
 
-	if (info->maxsorted == min)
+	if (info->maxsorted == info->min)
 	{
 		if (move->target->index == (info->tot_size - 1))
 			return (info->min);
@@ -130,7 +130,7 @@ t_list	*can_push_back(t_info *info, t_moves *move)
 t_moves	find_best_move_insert(t_info *info)
 {
 	int		i;
-	t_list	loc_a;
+	t_list	*loc_a;
 	t_moves	ret;
 	t_moves	**tab;
 	
@@ -150,7 +150,13 @@ t_moves	find_best_move_insert(t_info *info)
 		i++;
 	}
 	if (ret.target)
-		
+	{
+//		printf("found one\n");
+		optimize_rotations(info, &ret, getdist(info->begin_a, info->size_a, loc_a), ret.dist);
+		ret.pa = 1;
+		tot_nb_moves(&ret);
+		ret.pa = ret.size_block;
+	}		
 	return (free_possibilities(tab), ret);
 }
 
@@ -175,7 +181,7 @@ t_moves	find_best_move_remove(t_info *info)
 			if (tab[i]->nb_instructions < min->nb_instructions)
 				min = tab[i];
 			else if (tab[i]->nb_instructions == min->nb_instructions
-				&& tab[i]->nb < min->nb)
+				&& tab[i]->nb > min->nb)
 				min = tab[i];
 		}
 		i++;
@@ -199,7 +205,10 @@ void	ft_sortlist(t_info *info)
 		{
 			possibility_insert = find_best_move_insert(info);
 			if (possibility_insert.target != NULL && possibility_insert.nb_instructions < possibility_remove.nb_instructions)
+			{
+				info->maxsorted = possibility_insert.block_end;
 				execute_actions(info, &possibility_insert);
+			}
 			else
 			{
 				execute_actions(info, &possibility_remove);
