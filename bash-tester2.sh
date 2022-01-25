@@ -1,5 +1,5 @@
 #! /bin/bash
-tot=100
+tot=2500
 x=1
 max=0
 maxargs=0
@@ -7,7 +7,7 @@ moy=0
 make
 while [ $x -le $tot ]
 do
-	ARG=`ruby -e "puts (1..100).to_a.shuffle.join(' ')"`
+	ARG=`ruby -e "puts (1..500).to_a.shuffle.join(' ')"`
 	result=$(./push_swap $ARG | wc -l)
 	valid=$(./push_swap $ARG | ./checker_Mac $ARG)
 	moy=$(( $moy + $result ))
