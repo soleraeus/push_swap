@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 07:16:56 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 07:17:32 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/25 18:03:36 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void	simulate_actions(t_info *info, t_moves *possibility)
 	handle_reverse_rotates(info, possibility_cpy);
 	handle_swaps(info, possibility_cpy);
 	handle_pushes(info, possibility_cpy);
+	free(possibility_cpy);
 }

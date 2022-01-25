@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/22 08:25:59 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/25 16:46:13 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/simulate_actions.c \
 		./utils/add_instruction.c \
 		./utils/cpy_move.c \
+		./utils/cpy_info.c \
+		./utils/keep_min_only.c \
 		push_swap.c
 
 

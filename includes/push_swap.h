@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 08:28:04 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/25 16:45:47 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ typedef struct s_instructions
 
 void	ft_printlist(t_list **begin, t_list **last, char c);
 
-t_moves		*cpy_move(t_moves *src);
-t_moves		*add_possibility(t_info *info, t_list *target, int dist);
+void			cpy_info(t_info *dst, t_info *src);
+void			keep_min_only(t_info *info);
+t_moves			*cpy_move(t_moves *src);
+t_moves			*add_possibility(t_info *info, t_list *target, int dist);
 t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
 void			simulate_actions(t_info *info, t_moves *possibility);
 void			findmaxsorted(t_info *info);

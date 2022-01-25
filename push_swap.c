@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/22 08:29:56 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/25 18:57:59 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,14 @@ void	ft_pushorswap(t_info *info, t_moves *possibility)
 		possibility->sa += 1;
 		if (posswapnext.sa == 1 && tot_nb_moves(&posswapnext) < tot_nb_moves(possibility))
 			*possibility = posswapnext;
+		return ;
 	}
-	if (!possibility->sa)
+	if (posswapnext.sa)
+	{
+		*possibility = posswapnext;
+		tot_nb_moves(possibility);
+		return ;
+	}
 		ft_pushinorder(info, possibility);
 	tot_nb_moves(possibility);
 }
@@ -128,7 +134,7 @@ t_moves	*find_best_move_remove(t_info *info)
 	int	i;
 	t_moves	*ret;
 	t_moves	**tab;
-	
+
 	tab = NULL;
 	ret = (t_moves *)malloc(sizeof(t_moves));
 	tab = ft_findtargets(info);
@@ -151,7 +157,7 @@ t_moves	*find_best_move_remove(t_info *info)
 	return (free_possibilities(tab), ret);
 }
 
-t_instructions	*ft_sortlist_insert(t_info *info)
+t_instructions	*sortlist_insert(t_info *info)
 {
 	t_instructions	*instructions;
 	t_moves 		*possibility_remove;
@@ -190,42 +196,92 @@ t_instructions	*ft_sortlist_insert(t_info *info)
 	if (info->size_b != 0)
 		instructions = ft_insertbtoa(info, instructions);
 	instructions = ft_finalrotation(info, instructions);
-	ft_freelst(info->begin_a);
 	return (instructions);
 }
+
+t_instructions	*sortlist(t_info *info)
+{
+	t_instructions	*instructions;
+	t_moves 		*possibility_remove;
+
+	instructions = NULL;
+	while (info->unordered != 0)
+	{
+		possibility_remove = find_best_move_remove(info);
+		possibility_remove = find_best_move_remove(info);
+		simulate_actions(info, possibility_remove);
+		instructions = add_instruction(instructions, possibility_remove);
+		info->unordered -= 1;
+	}
+	if (info->size_b != 0)
+		instructions = ft_insertbtoa(info, instructions);
+	instructions = ft_finalrotation(info, instructions);
+	return (instructions);
+}
+
 
 int	main(int ac, char **av)
 {
 	int				i;
-	t_info			*info;
+	t_info			**info;
 	t_instructions	*min;
-//	t_instructions	*current;
+	t_instructions	*current;
 
-	info = (t_info *)malloc(sizeof(t_info) * 4);
+	info = (t_info **)malloc(sizeof(t_info *) * 4);
 	if (!info)
 		return (1);
-	ft_initinfo(&(info[0]), (ac - 1));
+	info[0] = (t_info *)malloc(sizeof(t_info));
+	ft_initinfo(info[0], (ac - 1));
 	if (ac == 1)
 		return (0);
 	while (ac-- > 1)
-		ft_lstaddnbr(&(info[0]), av[ac]);
-	if (info[0].size_a == 1)
-		return (free(info[0].begin_a), 0);
-	findindex(&(info[0]));
-	findmaxsorted(&(info[0]));
-	info[0].begin_a->prev = info[0].last_a;
-	info[0].last_a->next = info[0].begin_a;
-	ft_findwrongpos(&(info[0]));
-	if (info[0].unordered == 0)
-		return (ft_finalrotation(&(info[0]), NULL), ft_freelst(info[0].begin_a), 0);
+		ft_lstaddnbr(info[0], av[ac]);
+	if (info[0]->size_a == 1)
+		return (free(info[0]->begin_a), 0);
+	findindex(info[0]);
+	info[0]->begin_a->prev = info[0]->last_a;
+	info[0]->last_a->next = info[0]->begin_a;
+	ft_findwrongpos(info[0]);
+	findmaxsorted(info[0]);
+	if (info[0]->unordered == 0)
+	{
+		min = ft_finalrotation(info[0], NULL);
+		execute_actions(min);
+		return (0);
+	}
 	i = 0;
-	while (i++ < 3)
-		cpy_info(&(info[i]), &(info[0]));
-//	ft_printlist(&info.begin_a, &info.last_a, 'A');
-//	printf("%d\n", info.min->streak);
-	min = ft_sortlist_insert(&(info[0]));
-	printf("Total nb of instructions: %d\n", min->tot_nb_instructions);
+	while (++i < 4)
+	{
+		info[i] = (t_info *)malloc(sizeof(t_info));
+		cpy_info(info[i], info[0]);
+	}
+	keep_min_only(info[2]);
+	keep_min_only(info[3]);
+	min = sortlist(info[0]);
+	current = sortlist_insert(info[1]);
+	if (current->tot_nb_instructions < min->tot_nb_instructions)
+	{
+		free(min);
+		min = current;
+	}
+	else
+		free(current);
+	current = sortlist_insert(info[2]);
+	if (current->tot_nb_instructions < min->tot_nb_instructions)
+	{
+		free(min);
+		min = current;
+	}
+	else
+		free(current);
+	current = sortlist(info[3]);
+	if (current->tot_nb_instructions < min->tot_nb_instructions)
+	{
+		free(min);
+		min = current;
+	}
+	else
+		free(current);
 	execute_actions(min);
-
 	return (0);
 }

@@ -1,5 +1,6 @@
 #include "push_swap.h"
 
+
 static t_list	*lst_addfront(t_list *begin, t_list *current)
 {
 	t_list	*new;
@@ -8,8 +9,10 @@ static t_list	*lst_addfront(t_list *begin, t_list *current)
 	new->nb = current->nb;
 	new->index = current->index;
 	new->streak = current->streak;
-	current->next = begin;
-	current->prev = NULL;
+	new->next = begin;
+	new->prev = NULL;
+	if (begin)
+		begin->prev = new;
 	return (new);
 }
 
@@ -22,17 +25,17 @@ static void	cpy_lst(t_info *dst, t_info *src)
 	{
 		dst->begin_a = lst_addfront(dst->begin_a, current);
 		if (current == src->last_a)
-			dst->last_a = dst_begin_a;
+			dst->last_a = dst->begin_a;
 		if (current == src->min)
 			dst->min = dst->begin_a;
-		if (current == scr->maxsorted)
+		if (current == src->maxsorted)
 			dst->maxsorted = dst->begin_a;
 		current = current->prev;
 	}
 	dst->begin_a = lst_addfront(dst->begin_a, current);
 	if (current == src->min)
 		dst->min = dst->begin_a;
-	if (current == scr->maxsorted)
+	if (current == src->maxsorted)
 		dst->maxsorted = dst->begin_a;
 	dst->begin_a->prev = dst->last_a;
 	dst->last_a->next = dst->begin_a;

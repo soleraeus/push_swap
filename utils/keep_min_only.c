@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   findmaxsorted.c                                    :+:      :+:    :+:   */
+/*   keep_min_only.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/22 04:01:50 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/25 15:56:58 by bdetune          ###   ########.fr       */
+/*   Created: 2022/01/25 16:43:30 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/25 17:43:07 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-#include <stdio.h>
-
-void	findmaxsorted(t_info *info)
+void	keep_min_only(t_info *info)
 {
 	t_list	*current;
 
-	current = info->begin_a;
-	while (current != info->last_a)
+	current = info->min->next;
+	while (current != info->min)
 	{
-		if (current->index == (info->tot_size - 1) && current->streak != -1)
-		{
-			info->maxsorted = current;
-			return ;
-		}
+		current->streak = -1;
 		current = current->next;
 	}
-	if (current->index == (info->tot_size - 1) && current->streak != -1)
-		info->maxsorted = current;
-	else
-		info->maxsorted = info->min;
+	info->unordered = info->tot_size - 1;
 }
