@@ -16,13 +16,10 @@ t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions)
 {
 	t_moves	*new;
 
-	new = (t_moves *)malloc(sizeof(t_moves));
-	new->dist = getdist(info->begin_a, info->size_a, info->min);
-	if (!new->dist)
-		return (free(new), instructions);
-	new->target = info->min;
+	new = add_possibility(info, info->min, getdist(info->begin_a, info->size_a, info->min));
 	ft_bringtofront(info, new, 'a');
-	execute_actions(info, new);
+	tot_nb_moves(new);
+	simulate_actions(info, new);
 	instructions = add_instruction(instructions, new);
 	return (instructions);
 }

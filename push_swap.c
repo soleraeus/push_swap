@@ -41,8 +41,6 @@ void	print_possibility(t_moves *possibility)
 
 int	tot_nb_moves(t_moves *possibility)
 {
-	if (possibility->nb_instructions)
-		return (possibility->nb_instructions);
 	possibility->nb_instructions = \
 			possibility->ra + possibility->rb + possibility->rr \
 			+ possibility->rra + possibility->rrb + possibility->rrr \
@@ -170,13 +168,13 @@ t_instructions	*ft_sortlist_insert(t_info *info)
 			if (possibility_insert->target != NULL && possibility_insert->nb_instructions < possibility_remove->nb_instructions)
 			{
 				info->maxsorted = possibility_insert->block_end;
-				execute_actions(info, possibility_insert);
+				simulate_actions(info, possibility_insert);
 				instructions = add_instruction(instructions, possibility_insert);
 				free(possibility_remove);
 			}
 			else
 			{
-				execute_actions(info, possibility_remove);
+				simulate_actions(info, possibility_remove);
 				instructions = add_instruction(instructions, possibility_remove);
 				free(possibility_insert);
 				info->unordered -= 1;
@@ -184,7 +182,7 @@ t_instructions	*ft_sortlist_insert(t_info *info)
 		}
 		else
 		{
-			execute_actions(info, possibility_remove);
+			simulate_actions(info, possibility_remove);
 			instructions = add_instruction(instructions, possibility_remove);
 			info->unordered -= 1;
 		}
@@ -198,7 +196,7 @@ t_instructions	*ft_sortlist_insert(t_info *info)
 
 int	main(int ac, char **av)
 {
-//	int				i;
+	int				i;
 	t_info			*info;
 	t_instructions	*min;
 //	t_instructions	*current;
@@ -220,8 +218,14 @@ int	main(int ac, char **av)
 	ft_findwrongpos(&(info[0]));
 	if (info[0].unordered == 0)
 		return (ft_finalrotation(&(info[0]), NULL), ft_freelst(info[0].begin_a), 0);
+	i = 0;
+	while (i++ < 3)
+		cpy_info(&(info[i]), &(info[0]));
 //	ft_printlist(&info.begin_a, &info.last_a, 'A');
 //	printf("%d\n", info.min->streak);
 	min = ft_sortlist_insert(&(info[0]));
+	printf("Total nb of instructions: %d\n", min->tot_nb_instructions);
+	execute_actions(min);
+
 	return (0);
 }

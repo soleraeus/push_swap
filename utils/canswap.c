@@ -4,6 +4,8 @@ int	canswapnext(t_info *info, t_list *unordered)
 {
 	int	next_valid_val;
 
+	if (info->unordered == (info->size_a - 1))
+		return (0);
 	if (unordered->next->streak != -1 && unordered->next->nb < unordered->nb)
 	{
 		next_valid_val = ft_findnextvalid(unordered->next->next);
@@ -16,7 +18,9 @@ int	canswapnext(t_info *info, t_list *unordered)
 int	canswapprev(t_info *info, t_list *unordered)
 {
 	int	prev_valid_val;
-		
+	
+	if (info->unordered == (info->size_a - 1))
+		return (0);	
 	if (unordered->prev->streak != -1 && (unordered->prev->nb > unordered->nb || unordered->prev->nb == info->min->nb))
 	{
 		prev_valid_val = ft_findprevvalid(unordered->prev->prev);

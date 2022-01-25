@@ -53,7 +53,7 @@ t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
 			i++;
 		}
 		new->pa = new->size_block;
-		execute_actions(info, new);
+		simulate_actions(info, new);
 		instructions = add_instruction(instructions, new);
 		free_possibilities(tab);
 	}

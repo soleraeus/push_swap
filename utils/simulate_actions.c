@@ -80,9 +80,12 @@ static void	handle_pushes(t_info *info, t_moves *possibility)
 
 void	simulate_actions(t_info *info, t_moves *possibility)
 {
+	t_moves	*possibility_cpy;
+
+	possibility_cpy = cpy_move(possibility);
 	possibility->target->streak = 1;
-	handle_rotates(info, possibility);
-	handle_reverse_rotates(info, possibility);
-	handle_swaps(info, possibility);
-	handle_pushes(info, possibility);
+	handle_rotates(info, possibility_cpy);
+	handle_reverse_rotates(info, possibility_cpy);
+	handle_swaps(info, possibility_cpy);
+	handle_pushes(info, possibility_cpy);
 }

@@ -36,6 +36,7 @@ SRCS=   ./utils/ft_atoll.c \
 		./utils/findmaxsorted.c \
 		./utils/simulate_actions.c \
 		./utils/add_instruction.c \
+		./utils/cpy_move.c \
 		push_swap.c
 
 

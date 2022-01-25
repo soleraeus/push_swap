@@ -74,6 +74,8 @@ typedef struct s_instructions
 
 void	ft_printlist(t_list **begin, t_list **last, char c);
 
+t_moves		*cpy_move(t_moves *src);
+t_moves		*add_possibility(t_info *info, t_list *target, int dist);
 t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
 void			simulate_actions(t_info *info, t_moves *possibility);
 void			findmaxsorted(t_info *info);
@@ -91,7 +93,7 @@ void			ft_checkdouble(t_info *info, int nb);
 void			findindex(t_info *info);
 t_moves			**ft_findtargets(t_info *info);
 t_moves			**ft_findblocks(t_info *info);
-void			execute_actions(t_info *info, t_moves *possibility);
+void			execute_actions(t_instructions *min);
 void			init_target(t_moves *possibility);
 void			free_possibilities(t_moves **tab);
 void			ft_findwrongpos(t_info *info);
