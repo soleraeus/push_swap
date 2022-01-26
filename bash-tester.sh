@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ################### Variables to modify ###################
-nbiterations=7500
+nbiterations=10000
 nbmaxmoves=5500
 listsize=500
 checker="checker_Mac"
