@@ -13,10 +13,7 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-void	ft_throwerror(t_info *info)
+void	throw_error(void)
 {
-	ft_freelst(info->begin_a);
-	ft_freelst(info->begin_b);
 	write(2, WRONG_NUMBER, WRONG_NUMBER_SIZE);
-	exit(1);
 }

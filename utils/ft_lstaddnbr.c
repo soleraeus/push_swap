@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static t_list	*ft_lstnew(int nb)
+static t_list	*lstnew(int nb)
 {
 	t_list	*new;
 
@@ -27,20 +27,19 @@ static t_list	*ft_lstnew(int nb)
 	return (new);
 }
 
-void	ft_lstaddnbr(t_info *info, char *av)
+int	ft_lstaddnbr(t_info *info, char *av)
 {
 	long long	nb;
 	t_list		*new;
 
 	if (ft_checknb(av))
-		ft_throwerror(info);
+		return (throw_error(), 1);
 	nb = ft_atoll(av);
-	if (nb > INT_MAX || nb < INT_MIN)
-		ft_throwerror(info);
-	ft_checkdouble(info, nb);
-	new = ft_lstnew((int)nb);
+	if (nb > INT_MAX || nb < INT_MIN || check_double(info, nb))
+		return (throw_error(), 1);
+	new = lstnew((int)nb);
 	if (!new)
-		ft_throwerror(info);
+		return (throw_error(), 1);
 	new->next = info->begin_a;
 	if (!info->begin_a)
 	{
@@ -52,4 +51,5 @@ void	ft_lstaddnbr(t_info *info, char *av)
 	if (info->min && info->min->nb > new->nb)
 		info->min = new;
 	info->begin_a = new;
+	return (0);
 }

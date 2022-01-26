@@ -1,10 +1,10 @@
 #! /bin/bash
 
 ################### Variables to modify ###################
-nbiterations=10000
-nbmaxmoves=5500
-listsize=500
-checker="checker_Mac"
+nbiterations=1000
+nbmaxmoves=700
+listsize=100
+checker="checker_linux"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
 resultsfile="maxargs.txt"
