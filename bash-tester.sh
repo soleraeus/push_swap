@@ -1,15 +1,29 @@
 #! /bin/bash
-tot=100
+
+################### Variables to modify ###################
+nbiterations=100
+nbmaxmoves=5500
+listsize=500
+checker="checker_Mac"
+erroutfile="errout.txt"
+overlimitfile="overlimit.txt"
+resultsfile="maxargs.txt"
+tempfile="temp.txt"
+############### End of variables to modify ###############
+
 x=1
 max=0
 maxargs=0
 moy=0
 make
-while [ $x -le $tot ]
+echo -e "Starting tests\n"
+while [ $x -le $nbiterations ]
 do
-	ARG=`ruby -e "puts (1..100).to_a.shuffle.join(' ')"`
-	result=$(./push_swap $ARG | wc -l)
-	valid=$(./push_swap $ARG | ./checker_Mac $ARG)
+	echo -e "\033[1A\r\033[0K\033[1;37m$x / $nbiterations, current max: $max"
+	ARG=`ruby -e "puts (1..$listsize).to_a.shuffle.join(' ')"`
+	echo "$(./push_swap $ARG)" > $tempfile
+	valid=$(cat temp.txt | ./$checker $ARG)
+	result=$(cat temp.txt | wc -l | grep -oe "[0-9]\+")
 	moy=$(( $moy + $result ))
 	if [ $result -gt $max ]
 	then
@@ -18,12 +32,23 @@ do
 	fi
 	if [ $valid != 'OK' ]
 	then
-		echo "ERROR, RESULT IS INVALID"
-		break
+		echo -e "\033[1;31mERROR, RESULT IS INVALID, SEE erroutfile FOR ARGS"
+		echo "ERROR ON:"
+		echo "$ARG" > $erroutfile
+		rm -rf $tempfile
+		exit 1
+	fi
+	if [ $result -gt $nbmaxmoves ]
+	then
+		echo -e "\033[1A\r\033[0K\033[1;31mWarning, over $nbmaxmoves, found $result moves. See $overlimitfile for args.\n"
+		echo "Number of moves: $result" >> $overlimitfile
+		echo "$ARG" >> $overlimitfile
 	fi
 	x=$(( $x + 1 ))
 done
-moy=$(( $moy / $tot ))
-echo "moyenne: $moy" >> maxargsnew.txt
-echo "max number: $max" >> maxargsnew.txt
-echo "$maxargs" >> maxargsnew.txt
+rm -rf $tempfile
+moy=$(( $moy / $nbiterations ))
+echo "Max number of moves: $max" >> $resultsfile
+echo "$maxargs" >> $resultsfile
+echo -e "\033[1;37mFinished tests, number of tests: $nbiterations, average number of moves: $moy, max number of moves: $max, for list of size $listsize. See $resultsfile for args of max number of moves found."
+exit 0
