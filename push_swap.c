@@ -64,7 +64,7 @@ void	ft_pushorswap(t_info *info, t_moves *possibility)
 		possibility->dist -= 1;
 		ft_bringtofront(info, possibility, 'a');
 		possibility->sa += 1;
-		if (posswapnext.sa == 1 && tot_nb_moves(&posswapnext) < tot_nb_moves(possibility))
+		if (tot_nb_moves(&posswapnext) < tot_nb_moves(possibility) && posswapnext.sa)
 			*possibility = posswapnext;
 		return ;
 	}

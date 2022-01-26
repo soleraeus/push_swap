@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ################### Variables to modify ###################
-nbiterations=100
+nbiterations=7500
 nbmaxmoves=5500
 listsize=500
 checker="checker_Mac"
@@ -22,8 +22,8 @@ do
 	echo -e "\033[1A\r\033[0K\033[1;37m$x / $nbiterations, current max: $max"
 	ARG=`ruby -e "puts (1..$listsize).to_a.shuffle.join(' ')"`
 	echo "$(./push_swap $ARG)" > $tempfile
-	valid=$(cat temp.txt | ./$checker $ARG)
-	result=$(cat temp.txt | wc -l | grep -oe "[0-9]\+")
+	valid=$(cat $tempfile | ./$checker $ARG)
+	result=$(cat $tempfile | wc -l | grep -oe "[0-9]\+")
 	moy=$(( $moy + $result ))
 	if [ $result -gt $max ]
 	then
@@ -32,9 +32,9 @@ do
 	fi
 	if [ $valid != 'OK' ]
 	then
-		echo -e "\033[1;31mERROR, RESULT IS INVALID, SEE erroutfile FOR ARGS"
-		echo "ERROR ON:"
-		echo "$ARG" > $erroutfile
+		echo -e "\033[1;31mERROR, RESULT IS INVALID, SEE $erroutfile FOR ARGS"
+		echo "ERROR ON:" >> $erroutfile
+		echo "$ARG" >> $erroutfile
 		rm -rf $tempfile
 		exit 1
 	fi
