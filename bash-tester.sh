@@ -4,7 +4,7 @@
 nbiterations=1000
 nbmaxmoves=5500
 listsize=500
-checker="checker_Mac"
+checker="checker_linux"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
 resultsfile="maxargs.txt"

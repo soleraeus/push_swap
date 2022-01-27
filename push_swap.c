@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 15:34:56 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 17:40:04 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,6 @@ int	main(int ac, char **av)
 {
 	t_info			**info;
 	t_instructions	*min;
-	t_instructions	*current;
 
 	if (ac == 1)
 		return (0);
@@ -228,35 +227,13 @@ int	main(int ac, char **av)
 	if (info[0]->unordered == 0)
 	{
 		min = ft_finalrotation(info[0], NULL);
-		execute_actions(min);
+		execute_actions(NULL, min, 1);
 		free_info(info);
-		return (0);
+		return (free_info(info), free0);
 	}
-	min = sortlist(info[0]);
-	current = sortlist_insert(info[1]);
-	if (current->tot_nb_instructions < min->tot_nb_instructions)
-	{
-		free(min);
-		min = current;
-	}
-	else
-		free(current);
-	current = sortlist_insert(info[2]);
-	if (current->tot_nb_instructions < min->tot_nb_instructions)
-	{
-		free(min);
-		min = current;
-	}
-	else
-		free(current);
-	current = sortlist(info[3]);
-	if (current->tot_nb_instructions < min->tot_nb_instructions)
-	{
-		free(min);
-		min = current;
-	}
-	else
-		free(current);
-	execute_actions(min);
+	min = sort(info);
+	if (!min)
+		return (free_info(info), 1)
+	execute_actions(NULL, min, 1);
 	return (0);
 }
