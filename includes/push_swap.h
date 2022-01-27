@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 19:45:13 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 20:44:43 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <stdio.h>
 # define WRONG_NUMBER "Error\n"
 # define WRONG_NUMBER_SIZE 6
 # define TARGET_NB 500
@@ -90,11 +91,11 @@ void			keep_min_only(t_info *info);
 t_moves			**ft_findtargets(t_info *info);
 t_moves			**find_blocks(t_info *info);
 void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);
-int				getdist(t_list *begin, int size, t_list *target)a;
+int				getdist(t_list *begin, int size, t_list *target);
 void			execute_actions(t_info *info, t_moves *move, int print);
 t_moves			*find_best_move_remove(t_info *info);
 t_moves			*find_best_move_insert(t_info *info);
-t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions)a;
+t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions);
 void			ft_pusha(t_info *info);
 void			ft_pushb(t_info *info);
 void			ft_swapboth(t_info *info);
@@ -112,14 +113,15 @@ void			keep_min_only(t_info *info);
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions);
 int				ft_findinsertpos(t_info *info, int nb);
 t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
-int				free_instructions(t_instructions *begin);
+t_instructions	*free_instructions(t_instructions *begin);
 void			print_instructions(t_instructions *begin);
 void			init_target(t_moves *move);
 t_moves			*add_move(t_list *target, int dist);
-void			free_tab_moves(t_move **tab);
+void			free_tab_moves(t_moves **tab);
 void			ft_pushorswap(t_info *info, t_moves *possibility);
 void			ft_pushinorder(t_info *info, t_moves *possibility);
 t_instructions	*sort(t_info **info);
 int				tot_nb_moves(t_moves *possibility);
+void			optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
 
 #endif

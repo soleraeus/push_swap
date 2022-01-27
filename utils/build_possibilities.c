@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 19:12:59 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 20:42:43 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_list	*end_of_block(t_list *begin)
 	return (current);
 }
 
-static int	addblocks(t_info *info, t_moves **tab, t_list *first, int nb_blocks)
+static int	addblocks(t_info *info, t_moves **tab, int nb_blocks)
 {
 	int		index;
 	int		dist_target;

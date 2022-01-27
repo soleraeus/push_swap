@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	free_tab_moves(t_move **tab)
+void	free_tab_moves(t_moves **tab)
 {
 	int	i;
 

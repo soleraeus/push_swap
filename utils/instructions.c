@@ -16,7 +16,7 @@ void	print_instructions(t_instructions *begin)
 	}
 }
 
-int	free_instructions(t_instructions *begin)
+t_instructions	*free_instructions(t_instructions *begin)
 {
 	t_instructions	*swap;
 	t_instructions	*current;
@@ -26,7 +26,7 @@ int	free_instructions(t_instructions *begin)
 	current = begin->first;
 	while (current)
 	{
-		free(begin->moves);
+		free(current->moves);
 		swap = current->prev;
 		free(current);
 		current = swap;

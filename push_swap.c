@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 19:29:26 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 20:24:22 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,15 @@ int	main(int ac, char **av)
 		return (1);
 	if (info[0]->unordered == 0)
 	{
-		min = ft_finalrotation(info[0], NULL);
-		execute_actions(NULL, min, 1);
-		free_info(info);
-		return (free_info(info), free0);
+		begin = ft_finalrotation(info[0], NULL);
+		if (!begin)
+			return (free_info(info), 1);
+		print_instructions(begin);	
+		return (free_info(info), 0);
 	}
 	begin = sort(info);
 	if (!begin)
-		return (free_info(info), 1)
+		return (free_info(info), 1);
 	print_instructions(begin);
 	free_info(info);
 	return (0);

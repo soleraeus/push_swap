@@ -49,7 +49,7 @@ t_moves	*find_best_move_insert(t_info *info)
 		tot_nb_moves(ret);
 		ret->pa = ret->size_block;
 	}		
-	return (free_possibilities(tab), ret);
+	return (free_tab_moves(tab), ret);
 }
 
 
