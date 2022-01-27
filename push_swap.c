@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/25 18:57:59 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 12:56:57 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ void	ft_printlist(t_list **begin, t_list **last, char c)
 	if (*last)
 		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 	return ;
-}
-
-void	print_possibility(t_moves *possibility)
-{
-	printf("nb: %d, nb instructions: %d,  ra: %d, rb: %d, rr: %d, rra: %d, rrb: %d, rrr: %d, sa: %d, sb: %d, ss: %d, pa: %d, pb: %d\n", \
-			possibility->nb, possibility->nb_instructions, possibility->ra, possibility->rb, possibility->rr, possibility->rra, possibility->rrb, possibility->rrr, possibility->sa, possibility->sb, possibility->ss, possibility->pa, possibility->pb);
 }
 
 int	tot_nb_moves(t_moves *possibility)
@@ -227,22 +221,11 @@ int	main(int ac, char **av)
 	t_instructions	*min;
 	t_instructions	*current;
 
-	info = (t_info **)malloc(sizeof(t_info *) * 4);
-	if (!info)
-		return (1);
-	info[0] = (t_info *)malloc(sizeof(t_info));
-	ft_initinfo(info[0], (ac - 1));
 	if (ac == 1)
 		return (0);
-	while (ac-- > 1)
-		ft_lstaddnbr(info[0], av[ac]);
-	if (info[0]->size_a == 1)
-		return (free(info[0]->begin_a), 0);
-	findindex(info[0]);
-	info[0]->begin_a->prev = info[0]->last_a;
-	info[0]->last_a->next = info[0]->begin_a;
-	ft_findwrongpos(info[0]);
-	findmaxsorted(info[0]);
+	info = create_tab(ac, av);
+	if (!info)
+		return (1);
 	if (info[0]->unordered == 0)
 	{
 		min = ft_finalrotation(info[0], NULL);

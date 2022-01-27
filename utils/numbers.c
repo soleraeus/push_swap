@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:48:00 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/14 19:08:44 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 12:58:51 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ long long	ft_atoll(const char *str)
 		i++;
 	}
 	return ((long long)(sign_factor * ret));
+}
+
+static int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
 
 int	check_nb(char *nb)

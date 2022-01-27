@@ -1,18 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstaddnbr.c                                     :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/10 18:37:24 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/14 19:09:47 by bdetune          ###   ########.fr       */
+/*   Created: 2022/01/27 12:14:31 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/27 12:58:49 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_list	*lstnew(int nb)
+void	free_list(t_list *begin)
+{
+	t_list	*next;
+
+	if (!begin)
+		return ;
+	if (begin->prev)
+		begin->prev->next = NULL;
+	while (begin)
+	{
+		next = begin->next;
+		free(begin);
+		begin = next;
+	}
+}
+
+static t_list	*lst_new(int nb)
 {
 	t_list	*new;
 
@@ -27,19 +43,19 @@ static t_list	*lstnew(int nb)
 	return (new);
 }
 
-int	ft_lstaddnbr(t_info *info, char *av)
+int	lstaddnbr(t_info *info, char *av)
 {
 	long long	nb;
 	t_list		*new;
 
-	if (ft_checknb(av))
+	if (check_nb(av))
 		return (throw_error(), 1);
 	nb = ft_atoll(av);
 	if (nb > INT_MAX || nb < INT_MIN || check_double(info, nb))
 		return (throw_error(), 1);
 	new = lstnew((int)nb);
 	if (!new)
-		return (throw_error(), 1);
+		return (1);
 	new->next = info->begin_a;
 	if (!info->begin_a)
 	{

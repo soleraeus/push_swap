@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/25 16:45:47 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 12:58:54 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int				getdist(t_list *begin, int size, t_list *target);
 void			init_info(t_info *info, int size);
 void			throw_error(void);
 void			ft_lstaddnbr(t_info *info, char *av);
-int				ft_isdigit(int c);
 void			ft_freelst(t_list *begin);
 int				ft_checknb(char *nb);
 long long		ft_atoll(const char *str);
