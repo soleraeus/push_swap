@@ -55,8 +55,8 @@ static t_instructions	*sortlist(t_info *info)
 		move = find_best_move_remove(info);
 		if (!move)
 			return (free_instructions(instructions), NULL)
-		simulate_actions(info, move);
-		new = add_instruction(instructions, possibility_remove);
+		execute_actions(info, move, 0);
+		new = add_instruction(instructions, move);
 		if (!new)
 			return (free_instructions(instructions), free(move), NULL);
 		instructions = new;

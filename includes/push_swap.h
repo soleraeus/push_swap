@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 14:32:51 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 19:45:13 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,36 +87,39 @@ void			find_index(t_info *info);
 void			find_wrong_pos(t_info *info);
 void			find_max_sorted(t_info *info);
 void			keep_min_only(t_info *info);
-
-t_moves			*cpy_move(t_moves *src);
-t_moves			*add_possibility(t_list *target, int dist);
-t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
-void			simulate_actions(t_info *info, t_moves *possibility);
-void			optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
-int				getdist(t_list *begin, int size, t_list *target);
-void			throw_error(void);
-int				tot_nb_moves(t_moves *possibility);
 t_moves			**ft_findtargets(t_info *info);
-t_moves			**ft_findblocks(t_info *info);
-void			execute_actions(t_instructions *min);
-void			init_target(t_moves *possibility);
-void			free_possibilities(t_moves **tab);
-void			ft_swapone(t_list **begin);
-void			ft_swapboth(t_info *info);
+t_moves			**find_blocks(t_info *info);
+void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);
+int				getdist(t_list *begin, int size, t_list *target)a;
+void			execute_actions(t_info *info, t_moves *move, int print);
+t_moves			*find_best_move_remove(t_info *info);
+t_moves			*find_best_move_insert(t_info *info);
+t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions)a;
 void			ft_pusha(t_info *info);
 void			ft_pushb(t_info *info);
+void			ft_swapboth(t_info *info);
+void			ft_swapone(t_list **begin);
 void			ft_rotateone(t_list **begin, t_list **last);
 void			ft_rotateboth(t_info *info);
 void			ft_reverserotateone(t_list **begin, t_list **last);
 void			ft_reverserotateboth(t_info *info);
-int				ft_findclosest(t_info *info, t_list **unordered);
-int				canswapnext(t_info *info, t_list *unordered);
-int				canswapprev(t_info *info, t_list *unordered);
-int				ft_findnextvalid(t_list *begin);
-int				ft_findprevvalid(t_list *begin);
-void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);
-void			ft_pushinorder(t_info *info, t_moves *possibility);
+t_info			**create_tab(int ac, char **av);
+void			free_info(t_info **info);
+void			find_index(t_info *info);
+void			find_wrong_pos(t_info *info);
+void			find_max_sorted(t_info *info);
+void			keep_min_only(t_info *info);
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions);
-t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions);
+int				ft_findinsertpos(t_info *info, int nb);
+t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
+int				free_instructions(t_instructions *begin);
+void			print_instructions(t_instructions *begin);
+void			init_target(t_moves *move);
+t_moves			*add_move(t_list *target, int dist);
+void			free_tab_moves(t_move **tab);
+void			ft_pushorswap(t_info *info, t_moves *possibility);
+void			ft_pushinorder(t_info *info, t_moves *possibility);
+t_instructions	*sort(t_info **info);
+int				tot_nb_moves(t_moves *possibility);
 
 #endif
