@@ -11,61 +11,72 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-int	ft_findinsertpos(t_info *info, int nb)
+int	findinsertpos(t_info *info, t_moves *move)
 {
-	int		dist;
-	t_list	*current_begin;
+	int	dist;
+	t_list	*current;
 
-	dist = 0;
-	current_begin = info->begin_a;
-	while (1)
+	if (move->target->index == (info->tot_size - 1))
+		return (getdist(info->begin_a, info->size_a, info->min));
+	if (move->target->index == (info->begin_a->index - 1))
+		return (0);
+	dist = 1;
+	current = info->begin_a->next;
+	while (current != info->begin_a)
 	{
-		if (current_begin->prev->nb < nb && (current_begin->nb > nb
-				|| current_begin->nb == info->min->nb))
+		if (current->index == (move->target->index + 1))
 			return (dist);
-		current_begin = current_begin->next;
+		current = current->next;
 		dist++;
 	}
+	return (-1);
 }
 
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
 {
-	int		i;
 	t_list	*first;
 	t_list	*current;
 	int		dist;
 	t_moves	*new;
-	t_moves	*test;
-	t_moves	**tab;
+	t_moves	test;
 
 	while (info->size_b != 0)
 	{
-//		write(1, "OK\n", 3);
 		first = info->begin_b;
-		while (first->prev->index == (first->index + 1));
+		while (first->prev->index == (first->index + 1))
 			first = first->prev;
-		first->prev->next = NULL;
 		new = (t_moves *)malloc(sizeof(t_moves));
+		if (!new)
+			return (free_instructions(instructions), NULL);
 		new->target = NULL;
 		current = first;
 		while (current)
 		{
+			first->prev->next = first;	
 			dist = getdist(info->begin_b, info->size_b, current);
-			optimize_rotations(info, current, ft_findinsertpos(info, current->nb), tab[i]->dist);
-			tab[i]->pa += 1;
-			tot_nb_moves(tab[i]);
-			if (i == 0)
-				*new = *(tab[i]);
-			else if (tab[i]->nb_instructions < new->nb_instructions)
-				*new = *(tab[i]);
-			i++;
+			first->prev->next = NULL;
+			init_existing_move(&test, current, dist);
+			optimize_rotations(info, &test, findinsertpos(info, &test), dist);
+			test.pa += 1;
+			tot_nb_moves(&test);
+			if (new->target == NULL)
+				*new = test;
+			else if (test.nb_instructions < new->nb_instructions)
+				*new = test;
+			while (current->next && current->next->index == (current->index - 1))
+				current = current->next;
+			current = current->next;
 		}
-		new->pa = new->size_block;
+		current = new->target;
+		while (current->next && current->next->index == (current->index - 1))
+		{
+			new->pa += 1;
+			current = current->next;
+		}
+		first->prev->next = first;
 		execute_actions(info, new, 0);
-//		instructions = add_instruction(instructions, new);
-		free_tab_moves(tab);
+		instructions = add_instruction(instructions, new);
 	}
 	return (instructions);
 }

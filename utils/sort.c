@@ -1,6 +1,17 @@
 #include "push_swap.h"
 
 /*
+static t_moves	insert_or_remove(t_info *info)
+{
+	t_moves	*move_remove;
+	t_moves	*move_insert;
+
+	move_remove = find_best_move_remove(info);
+	if (!move)
+		return (NULL);
+}
+*/
+/*
 static t_instructions	*sortlist_insert(t_info *info)
 {
 	t_instructions	*instructions;
@@ -58,15 +69,12 @@ static t_instructions	*sortlist(t_info *info)
 		if (!move)
 			return (free_instructions(instructions), NULL);
 		execute_actions(info, move, 0);
-		execute_actions(info, move, 1);
 		new = add_instruction(instructions, move);
 		if (!new)
 			return (free_instructions(instructions), free(move), NULL);
 		instructions = new;
 		info->unordered -= 1;
 	}
-	printf("Size B: %d\n", info->size_b);
-	printf("Nb instructions: %d\n", instructions->tot_nb_instructions);
 	if (info->size_b != 0)
 		instructions = ft_insertbtoa(info, instructions);
 	instructions = ft_finalrotation(info, instructions);

@@ -2,8 +2,8 @@
 
 ################### Variables to modify ###################
 nbiterations=1000
-nbmaxmoves=5500
-listsize=500
+nbmaxmoves=700
+listsize=100
 checker="checker_linux"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
