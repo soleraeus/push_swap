@@ -6,20 +6,20 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/25 17:50:04 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 14:34:45 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-t_moves	*add_possibility(t_info *info, t_list *target, int dist)
+t_moves	*add_possibility(t_list *target, int dist)
 {
 	t_moves *possibility;
 
 	possibility = (t_moves *)malloc(sizeof(t_moves));
 	if (!possibility)
-		ft_throwerror(info);
+		return (NULL);
 	possibility->target = target;
 	possibility->block_end = NULL;
 	possibility->dist = dist;
@@ -52,14 +52,14 @@ t_moves	**ft_findtargets(t_info *info)
 	else
 		tab = (t_moves **)malloc(sizeof(t_moves *) * (TARGET_NB + 1));
 	if (!tab)
-		ft_throwerror(info);
+		return (NULL);
 	found = 0;
 	dist = 0;
 	current_begin = info->begin_a;
 	while (!(found == TARGET_NB || found == info->unordered))
 	{
 		if (current_begin->streak == -1)
-			tab[found++] = add_possibility(info, current_begin, dist);
+			tab[found++] = add_possibility(current_begin, dist);
 		current_begin = current_begin->next;
 		dist++;
 	}
@@ -126,7 +126,7 @@ void	addblocks(t_info *info, t_moves **tab, t_list *first, int nb_blocks)
 	t_list	*current;
 
 	index = 0;
-	tab[index] = add_possibility(info, first, getdist(info->begin_b, info->size_b, first));
+	tab[index] = add_possibility(first, getdist(info->begin_b, info->size_b, first));
 	tab[index]->block_end = find_end_of_block(first);
 	tab[index]->dist = getdist(info->begin_b, info->size_b, tab[index]->target);
 	if (tab[index]->dist != 0)
@@ -137,7 +137,7 @@ void	addblocks(t_info *info, t_moves **tab, t_list *first, int nb_blocks)
 	while (index < nb_blocks)
 	{
 		current = tab[(index - 1)]->block_end->next;
-		tab[index] = add_possibility(info, current, getdist(info->begin_b, info->size_b, current));
+		tab[index] = add_possibility(current, getdist(info->begin_b, info->size_b, current));
 		tab[index]->block_end = find_end_of_block(current);
 		tab[index]->dist = getdist(info->begin_b, info->size_b, tab[index]->target);
 		tab[index]->size_block += getdist(info->begin_b, info->size_b, tab[index]->block_end) - tab[index]->dist;
@@ -153,7 +153,7 @@ t_moves	**ft_findblocks(t_info *info)
 
 	nb_blocks = create_insert_pos_tab(info, &tab, &first);
 	if (!tab)
-		ft_throwerror(info);
+		return (NULL);
 	tab[nb_blocks] = NULL;
 	addblocks(info, tab, first, nb_blocks);
 	return (tab);

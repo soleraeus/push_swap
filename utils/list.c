@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:14:31 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 12:58:49 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 14:28:37 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ void	free_list(t_list *begin)
 		free(begin);
 		begin = next;
 	}
+}
+
+t_list	*lst_addfront(t_list *begin, t_list *current)
+{
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->nb = current->nb;
+	new->index = current->index;
+	new->streak = current->streak;
+	new->next = begin;
+	new->prev = NULL;
+	if (begin)
+		begin->prev = new;
+	return (new);
 }
 
 static t_list	*lst_new(int nb)
@@ -53,7 +70,7 @@ int	lstaddnbr(t_info *info, char *av)
 	nb = ft_atoll(av);
 	if (nb > INT_MAX || nb < INT_MIN || check_double(info, nb))
 		return (throw_error(), 1);
-	new = lstnew((int)nb);
+	new = lst_new((int)nb);
 	if (!new)
 		return (1);
 	new->next = info->begin_a;

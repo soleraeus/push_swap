@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 12:58:54 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 14:32:51 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,33 @@ typedef struct s_instructions
 
 void	ft_printlist(t_list **begin, t_list **last, char c);
 
-void			cpy_info(t_info *dst, t_info *src);
+void			throw_error(void);
+t_info			**create_tab(int ac, char **av);
+void			free_info(t_info **info);
+int				check_nb(char *nb);
+long long		ft_atoll(const char *str);
+int				check_double(t_info *info, int nb);
+int				lstaddnbr(t_info *info, char *av);
+t_list			*lst_addfront(t_list *begin, t_list *current);
+void			free_list(t_list *begin);
+void			find_index(t_info *info);
+void			find_wrong_pos(t_info *info);
+void			find_max_sorted(t_info *info);
 void			keep_min_only(t_info *info);
+
 t_moves			*cpy_move(t_moves *src);
-t_moves			*add_possibility(t_info *info, t_list *target, int dist);
+t_moves			*add_possibility(t_list *target, int dist);
 t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
 void			simulate_actions(t_info *info, t_moves *possibility);
-void			findmaxsorted(t_info *info);
 void			optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
 int				getdist(t_list *begin, int size, t_list *target);
-void			init_info(t_info *info, int size);
 void			throw_error(void);
-void			ft_lstaddnbr(t_info *info, char *av);
-void			ft_freelst(t_list *begin);
-int				ft_checknb(char *nb);
-long long		ft_atoll(const char *str);
 int				tot_nb_moves(t_moves *possibility);
-void			ft_checkdouble(t_info *info, int nb);
-void			findindex(t_info *info);
 t_moves			**ft_findtargets(t_info *info);
 t_moves			**ft_findblocks(t_info *info);
 void			execute_actions(t_instructions *min);
 void			init_target(t_moves *possibility);
 void			free_possibilities(t_moves **tab);
-void			ft_findwrongpos(t_info *info);
 void			ft_swapone(t_list **begin);
 void			ft_swapboth(t_info *info);
 void			ft_pusha(t_info *info);

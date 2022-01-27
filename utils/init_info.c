@@ -6,11 +6,45 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 12:08:33 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 12:58:45 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 14:27:44 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	keep_min_only(t_info *info)
+{
+	t_list	*current;
+
+	current = info->min->next;
+	while (current != info->min)
+	{
+		current->streak = -1;
+		current = current->next;
+	}
+	info->unordered = info->tot_size - 1;
+	info->maxsorted = info->min;
+}
+
+void	find_max_sorted(t_info *info)
+{
+	t_list	*current;
+
+	current = info->begin_a;
+	while (current != info->last_a)
+	{
+		if (current->index == (info->tot_size - 1) && current->streak != -1)
+		{
+			info->maxsorted = current;
+			return ;
+		}
+		current = current->next;
+	}
+	if (current->index == (info->tot_size - 1) && current->streak != -1)
+		info->maxsorted = current;
+	else
+		info->maxsorted = info->min;
+}
 
 static int	mark_wrong_pos(t_info *info, t_list **start)
 {
@@ -30,7 +64,7 @@ static int	mark_wrong_pos(t_info *info, t_list **start)
 		current = current->next;
 	}
 	if (next->streak != 1)
-		return (ft_markwrongpos(info, &next));
+		return (mark_wrong_pos(info, &next));
 	next = next->next;
 	while (next != info->min)
 	{
@@ -63,7 +97,7 @@ void	find_wrong_pos(t_info *info)
 		current = current->prev;
 	}
 	if (info->min->streak != info->size_a)
-		ft_markwrongpos(info, &info->min);
+		mark_wrong_pos(info, &info->min);
 }
 
 void	find_index(t_info *info)

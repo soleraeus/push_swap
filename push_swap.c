@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 12:56:57 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/27 15:34:56 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,6 @@ t_instructions	*sortlist(t_info *info)
 
 int	main(int ac, char **av)
 {
-	int				i;
 	t_info			**info;
 	t_instructions	*min;
 	t_instructions	*current;
@@ -230,16 +229,9 @@ int	main(int ac, char **av)
 	{
 		min = ft_finalrotation(info[0], NULL);
 		execute_actions(min);
+		free_info(info);
 		return (0);
 	}
-	i = 0;
-	while (++i < 4)
-	{
-		info[i] = (t_info *)malloc(sizeof(t_info));
-		cpy_info(info[i], info[0]);
-	}
-	keep_min_only(info[2]);
-	keep_min_only(info[3]);
 	min = sortlist(info[0]);
 	current = sortlist_insert(info[1]);
 	if (current->tot_nb_instructions < min->tot_nb_instructions)
