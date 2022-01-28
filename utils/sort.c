@@ -64,7 +64,6 @@ static t_instructions	*sortlist(t_info *info)
 	instructions = NULL;
 	while (info->unordered != 0)
 	{
-		move = NULL;
 		move = find_best_move_remove(info);
 		if (!move)
 			return (free_instructions(instructions), NULL);

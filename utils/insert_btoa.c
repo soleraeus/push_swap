@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	findinsertpos(t_info *info, t_moves *move)
+int	get_ins_pos(t_info *info, t_moves *move)
 {
 	int	dist;
 	t_list	*current;
@@ -33,50 +33,67 @@ int	findinsertpos(t_info *info, t_moves *move)
 	return (-1);
 }
 
-t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
+static void	nb_pa(t_moves *new, t_list *first)
 {
-	t_list	*first;
-	t_list	*current;
-	int		dist;
+	t_list	*it;
+
+	it = new->target;
+	while (it->next && it->next->index == (it->index - 1))
+	{
+		new->pa += 1;
+		it = it->next;
+	}
+	first->prev->next = first;
+}
+
+static t_moves	*get_best_insert(t_info *info, t_list *first)
+{
+	t_list	*it;
 	t_moves	*new;
 	t_moves	test;
+
+	new = (t_moves *)malloc(sizeof(t_moves));
+	if (!new)
+		return (NULL);
+	new->target = NULL;
+	it = first;
+	while (it)
+	{
+		first->prev->next = first;	
+		reinitmove(&test, it, getdist(info->begin_b, info->size_b, it));
+		first->prev->next = NULL;
+		optrot(info, &test, get_ins_pos(info, &test), test.dist);
+		test.pa += 1;
+		tot_nb_moves(&test);
+		if (new->target == NULL
+			|| test.nb_instructions < new->nb_instructions)
+			*new = test;
+		while (it->next && it->next->index == (it->index - 1))
+			it = it->next;
+		it = it->next;
+	}
+	return (nb_pa(new, first), new);
+}
+
+t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
+{
+	t_list		*first;
+	t_moves		*new;
+	t_instructions	*new_inst;
 
 	while (info->size_b != 0)
 	{
 		first = info->begin_b;
 		while (first->prev->index == (first->index + 1))
 			first = first->prev;
-		new = (t_moves *)malloc(sizeof(t_moves));
+		new = get_best_insert(info, first);
 		if (!new)
 			return (free_instructions(instructions), NULL);
-		new->target = NULL;
-		current = first;
-		while (current)
-		{
-			first->prev->next = first;	
-			dist = getdist(info->begin_b, info->size_b, current);
-			first->prev->next = NULL;
-			init_existing_move(&test, current, dist);
-			optimize_rotations(info, &test, findinsertpos(info, &test), dist);
-			test.pa += 1;
-			tot_nb_moves(&test);
-			if (new->target == NULL)
-				*new = test;
-			else if (test.nb_instructions < new->nb_instructions)
-				*new = test;
-			while (current->next && current->next->index == (current->index - 1))
-				current = current->next;
-			current = current->next;
-		}
-		current = new->target;
-		while (current->next && current->next->index == (current->index - 1))
-		{
-			new->pa += 1;
-			current = current->next;
-		}
-		first->prev->next = first;
 		execute_actions(info, new, 0);
-		instructions = add_instruction(instructions, new);
+		new_inst = add_instruction(instructions, new);
+		if (!new_inst)
+			return (free_instructions(instructions), free(new), NULL);
+		instructions = new_inst;
 	}
 	return (instructions);
 }

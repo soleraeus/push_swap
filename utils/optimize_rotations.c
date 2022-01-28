@@ -13,7 +13,7 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-void	optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b)
+void	optrot(t_info *info, t_moves *moves, int dist_a, int dist_b)
 {
 	int	r_dist_a;
 	int	r_dist_b;

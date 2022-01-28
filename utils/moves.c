@@ -13,7 +13,7 @@ void	free_tab_moves(t_moves **tab)
 	free(tab);
 }
 
-void	init_existing_move(t_moves *move, t_list *target, int dist)
+void	reinitmove(t_moves *move, t_list *target, int dist)
 {
 	move->target = target;
 	move->block_end = NULL;

@@ -44,7 +44,7 @@ t_moves	*find_best_move_insert(t_info *info)
 	if (loc_a)
 	{
 		*ret = *(tab[i]);
-		optimize_rotations(info, ret, getdist(info->begin_a, info->size_a, loc_a), ret->dist);
+		optrot(info, ret, getdist(info->begin_a, info->size_a, loc_a), ret->dist);
 		ret->pa = 1;
 		tot_nb_moves(ret);
 		ret->pa = ret->size_block;

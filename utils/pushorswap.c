@@ -25,7 +25,7 @@ void	ft_pushinorder(t_info *info, t_moves *possibility)
 		dist_b++;
 		current = current->next;
 	}
-	optimize_rotations(info, possibility, possibility->dist, dist_b);
+	optrot(info, possibility, possibility->dist, dist_b);
 	possibility->pb += 1;
 }
 

@@ -122,7 +122,7 @@ void			ft_pushorswap(t_info *info, t_moves *possibility);
 void			ft_pushinorder(t_info *info, t_moves *possibility);
 t_instructions	*sort(t_info **info);
 int				tot_nb_moves(t_moves *possibility);
-void			optimize_rotations(t_info *info, t_moves *moves, int dist_a, int dist_b);
-void			init_existing_move(t_moves *move, t_list *target, int dist);
+void			optrot(t_info *info, t_moves *moves, int dist_a, int dist_b);
+void			reinitmove(t_moves *move, t_list *target, int dist);
 
 #endif
