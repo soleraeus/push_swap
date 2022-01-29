@@ -55,31 +55,26 @@ t_moves	*find_best_move_insert(t_info *info)
 
 t_moves	*find_best_move_remove(t_info *info)
 {
-	int	i;
 	t_moves	*ret;
-	t_moves	**tab;
+	t_moves	test;
+	t_list	*current;
 
-	tab = NULL;
 	ret = (t_moves *)malloc(sizeof(t_moves));
 	if (!ret)
 		return (NULL);
-	tab = ft_findtargets(info);
-	if (!tab)
-		return (free(ret), NULL);
-	i = 0;
-	while (tab[i])
+	ret->target = NULL;
+	current = info->min->next;;
+	while (current != info->min)
 	{
-		ft_pushorswap(info, tab[i]);
-		if (i == 0)
-			*ret = *(tab[i]);
-		else
+		if (current->streak == -1)
 		{
-			if (tab[i]->nb_instructions < ret->nb_instructions
-				|| (tab[i]->nb_instructions == ret->nb_instructions
-				&& tab[i]->nb > ret->nb))
-				*ret = *(tab[i]);
+			reinitmove(&test, current, getdist(info->begin_a, info->size_a, current));
+			ft_pushorswap(info, &test);
+			if (ret->target == NULL || test.nb_instructions < ret->nb_instructions
+				|| (test.nb_instructions == ret->nb_instructions && test.nb > ret->nb))
+				*ret = test;
 		}
-		i++;
+		current = current->next;
 	}
-	return (free_tab_moves(tab), ret);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 20:24:22 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 11:14:19 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 #include <stdio.h>
 
 
-void	ft_printlist(t_list **begin, t_list **last, char c)
+void	ft_printlist(t_list *begin, t_list *last, char c)
 {
 	t_list	*current;
 
-	(void)c;
-	current = *begin;
+	current = begin;
 	write(1, "Stack ", 6);
 	write(1, &c, 1);
 	write(1, "\n", 1);
-	while (current && current != *last)
+	while (current && current != last)
 	{
 		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 		current = current->next;
 	}
-	if (*last)
+	if (current)
 		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 	return ;
 }

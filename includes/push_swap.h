@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 20:44:43 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 11:03:53 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_instructions
 	struct s_instructions	*prev;
 }	t_instructions;
 
-void	ft_printlist(t_list **begin, t_list **last, char c);
+void	ft_printlist(t_list *begin, t_list *last, char c);
 
 void			throw_error(void);
 t_info			**create_tab(int ac, char **av);

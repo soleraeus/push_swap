@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 12:08:33 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 14:27:44 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 10:59:27 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,26 @@ void	keep_min_only(t_info *info)
 
 void	find_max_sorted(t_info *info)
 {
+	int		i;
 	t_list	*current;
 
-	current = info->begin_a;
-	while (current != info->last_a)
+	i = 1;
+	info->begin_a->prev = NULL;
+	current = info->last_a;
+	while (current)
 	{
-		if (current->index == (info->tot_size - 1) && current->streak != -1)
+		if (current->index == (info->tot_size - i) && current->streak != -1)
 		{
 			info->maxsorted = current;
-			return ;
+			i++;
+			current = info->last_a;
 		}
-		current = current->next;
+		else
+			current = current->prev;
 	}
-	if (current->index == (info->tot_size - 1) && current->streak != -1)
-		info->maxsorted = current;
-	else
+	if (!info->maxsorted)
 		info->maxsorted = info->min;
+	info->begin_a->prev = info->last_a;
 }
 
 static int	mark_wrong_pos(t_info *info, t_list **start)

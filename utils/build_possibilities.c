@@ -6,42 +6,11 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 13:59:10 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 20:42:43 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 10:48:24 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-t_moves	**ft_findtargets(t_info *info)
-{
-	int		found;
-	int		dist;
-	t_list	*current_begin;
-	t_moves	**tab;
-
-	if (info->unordered < TARGET_NB)
-		tab = (t_moves **)malloc(sizeof(t_moves *) * (info->unordered + 1));
-	else
-		tab = (t_moves **)malloc(sizeof(t_moves *) * (TARGET_NB + 1));
-	if (!tab)
-		return (NULL);
-	found = 0;
-	dist = 0;
-	current_begin = info->begin_a;
-	while (!(found == TARGET_NB || found == info->unordered))
-	{
-		if (current_begin->streak == -1)
-		{
-			tab[found++] = add_move(current_begin, dist);
-			if (!tab[found - 1])
-				return (free_tab_moves(tab), NULL);
-		}
-		current_begin = current_begin->next;
-		dist++;
-	}
-	tab[found] = NULL;
-	return (tab);
-}
 
 static int	create_insert_pos_tab(t_info *info, t_moves ***tab, t_list **first)
 {
