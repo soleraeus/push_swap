@@ -1,55 +1,38 @@
 #include "push_swap.h"
 
-static t_list	*can_push_back(t_info *info, t_moves *move)
-{
-	t_list	*current;
-
-	if (info->maxsorted == info->min)
-	{
-		if (move->target->index == (info->tot_size - 1))
-			return (info->min);
-		return (NULL);
-	}
-	current = info->maxsorted;
-	while (current->prev->index == (current->index - 1))
-		current = current->prev;
-	if (move->target->index == (current->index - 1))
-		return (current);
-	return (NULL);
-}
-
 t_moves	*find_best_move_insert(t_info *info)
 {
 	int		i;
-	t_list	*loc_a;
+	t_list	*it;
 	t_moves	*ret;
-	t_moves	**tab;
 	
-	loc_a = NULL;
-	tab = find_blocks(info);
-	if (!tab)
-		return (NULL);
+	info->last_b->next = NULL;
 	ret = (t_moves *)malloc(sizeof(t_moves));
 	if (!ret)
-		return (free_tab_moves(tab), NULL);
+		return (NULL);
 	ret->target = NULL;
+	it = info->begin_b;
 	i = 0;
-	while (tab[i])
+	while (it)
 	{
-		loc_a = can_push_back(info, tab[i]);
-		if (loc_a)
+		if (it->index == (info->maxsorted->index - 1))
+		{
+			reinitmove(ret, it, i);
 			break ;
+		}
 		i++;
+		it = it->next;
 	}
-	if (loc_a)
+	info->last_b->next = info->begin_b;
+	if (ret->target)
 	{
-		*ret = *(tab[i]);
-		optrot(info, ret, getdist(info->begin_a, info->size_a, loc_a), ret->dist);
+		optrot(info, ret, getdist(info->begin_a, info->size_a, info->maxsorted), i);
 		ret->pa = 1;
 		tot_nb_moves(ret);
-		ret->pa = ret->size_block;
+		ret->target->prev->next = NULL;
+		nb_pa(ret, ret->target);
 	}		
-	return (free_tab_moves(tab), ret);
+	return (ret);
 }
 
 

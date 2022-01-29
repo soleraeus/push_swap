@@ -11,7 +11,7 @@ static t_moves	insert_or_remove(t_info *info)
 		return (NULL);
 }
 */
-/*
+
 static t_instructions	*sortlist_insert(t_info *info)
 {
 	t_instructions	*instructions;
@@ -26,9 +26,8 @@ static t_instructions	*sortlist_insert(t_info *info)
 		if (info->size_b)
 		{
 			possibility_insert = find_best_move_insert(info);
-			if (possibility_insert->target != NULL && possibility_insert->nb_instructions < possibility_remove->nb_instructions)
+			if ( possibility_insert && possibility_insert->target != NULL && possibility_insert->nb_instructions < possibility_remove->nb_instructions)
 			{
-				info->maxsorted = possibility_insert->block_end;
 				execute_actions(info, possibility_insert, 0);
 				instructions = add_instruction(instructions, possibility_insert);
 				free(possibility_remove);
@@ -52,7 +51,7 @@ static t_instructions	*sortlist_insert(t_info *info)
 		instructions = ft_insertbtoa(info, instructions);
 	instructions = ft_finalrotation(info, instructions);
 	return (instructions);
-}*/
+}
 
 
 static t_instructions	*sortlist(t_info *info)
@@ -80,7 +79,7 @@ static t_instructions	*sortlist(t_info *info)
 	return (instructions);
 }
 
-/*
+
 static t_instructions	*keep_min(t_instructions *min, t_instructions *current)
 {
 	if (!current)
@@ -92,7 +91,7 @@ static t_instructions	*keep_min(t_instructions *min, t_instructions *current)
 	}
 	free_instructions(current);
 	return (min);
-}*/
+}
 
 t_instructions	*sort(t_info **info)
 {
@@ -101,7 +100,7 @@ t_instructions	*sort(t_info **info)
 	min = sortlist(info[0]);
 	if (!min)
 		return (NULL);
-/*	min = keep_min(min, sortlist_insert(info[1]));
+	min = keep_min(min, sortlist_insert(info[1]));
 	if (!min)
 		return (NULL);
 	min = keep_min(min, sortlist_insert(info[2]));
@@ -109,6 +108,6 @@ t_instructions	*sort(t_info **info)
 		return (NULL);
 	min = keep_min(min, sortlist(info[3]));
 	if (!min)
-		return (NULL);*/
+		return (NULL);
 	return (min);
 }

@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/29 11:03:53 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 12:12:35 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void			find_index(t_info *info);
 void			find_wrong_pos(t_info *info);
 void			find_max_sorted(t_info *info);
 void			keep_min_only(t_info *info);
+void			nb_pa(t_moves *move, t_list *first);
 t_moves			**ft_findtargets(t_info *info);
 t_moves			**find_blocks(t_info *info);
 void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);

@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:13:34 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 21:09:12 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/29 12:19:12 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	get_ins_pos(t_info *info, t_moves *move)
 	return (-1);
 }
 
-static void	nb_pa(t_moves *new, t_list *first)
+void	nb_pa(t_moves *move, t_list *first)
 {
 	t_list	*it;
 
-	it = new->target;
+	it = move->target;
 	while (it->next && it->next->index == (it->index - 1))
 	{
-		new->pa += 1;
+		move->pa += 1;
 		it = it->next;
 	}
 	first->prev->next = first;
@@ -49,13 +49,13 @@ static void	nb_pa(t_moves *new, t_list *first)
 static t_moves	*get_best_insert(t_info *info, t_list *first)
 {
 	t_list	*it;
-	t_moves	*new;
+	t_moves	*move;
 	t_moves	test;
 
-	new = (t_moves *)malloc(sizeof(t_moves));
-	if (!new)
+	move = (t_moves *)malloc(sizeof(t_moves));
+	if (!move)
 		return (NULL);
-	new->target = NULL;
+	move->target = NULL;
 	it = first;
 	while (it)
 	{
@@ -65,14 +65,14 @@ static t_moves	*get_best_insert(t_info *info, t_list *first)
 		optrot(info, &test, get_ins_pos(info, &test), test.dist);
 		test.pa += 1;
 		tot_nb_moves(&test);
-		if (new->target == NULL
-			|| test.nb_instructions < new->nb_instructions)
-			*new = test;
+		if (move->target == NULL
+			|| test.nb_instructions < move->nb_instructions)
+			*move = test;
 		while (it->next && it->next->index == (it->index - 1))
 			it = it->next;
 		it = it->next;
 	}
-	return (nb_pa(new, first), new);
+	return (nb_pa(move, first), move);
 }
 
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
