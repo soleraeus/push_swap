@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:26:45 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 14:20:39 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 18:19:33 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void	ft_printlist(t_list *begin, t_list *last, char c)
 	if (current)
 		printf("index: %d - %d - streak: %d\n", current->index, current->nb, current->streak);
 	return ;
+}
+
+void	throw_error(void)
+{
+	write(2, "Error\n", 6);
 }
 
 int	main(int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 17:01:34 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 17:27:33 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_instructions	*finalrot(t_info *info, t_instructions *instructions);
 void			ft_pusha(t_info *info);
 void			ft_pushb(t_info *info);
 void			swap_both(t_info *info);
-void			swap_one(t_info *info, char stack);
+void			swap_one(t_info *info, char st);
 void			ft_rotateone(t_list **begin, t_list **last);
 void			ft_rotateboth(t_info *info);
 void			ft_reverserotateone(t_list **begin, t_list **last);

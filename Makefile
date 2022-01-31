@@ -6,7 +6,7 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/31 16:52:28 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/31 18:19:51 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SRCS=   ./utils/dist.c \
 		./utils/optimize_rotations.c \
 		./utils/push_or_swap.c \
 		./utils/sort.c \
-		./utils/throw_error.c \
 		push_swap.c
 
 
