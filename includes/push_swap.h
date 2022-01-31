@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/29 12:12:35 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 14:21:18 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ typedef struct s_list
 typedef struct s_moves
 {
 	t_list	*target;
-	t_list	*block_end;
 	int		dist;
-	int		size_block;
 	int		nb;
 	int		nb_instructions;
 	int		ra;
@@ -89,14 +87,12 @@ void			find_wrong_pos(t_info *info);
 void			find_max_sorted(t_info *info);
 void			keep_min_only(t_info *info);
 void			nb_pa(t_moves *move, t_list *first);
-t_moves			**ft_findtargets(t_info *info);
-t_moves			**find_blocks(t_info *info);
 void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);
 int				getdist(t_list *begin, int size, t_list *target);
 void			execute_actions(t_info *info, t_moves *move, int print);
-t_moves			*find_best_move_remove(t_info *info);
-t_moves			*find_best_move_insert(t_info *info);
-t_instructions	*ft_finalrotation(t_info *info, t_instructions *instructions);
+t_moves			find_best_move_remove(t_info *info);
+t_moves			find_best_move_insert(t_info *info);
+t_instructions	*finalrot(t_info *info, t_instructions *instructions);
 void			ft_pusha(t_info *info);
 void			ft_pushb(t_info *info);
 void			ft_swapboth(t_info *info);
@@ -105,25 +101,17 @@ void			ft_rotateone(t_list **begin, t_list **last);
 void			ft_rotateboth(t_info *info);
 void			ft_reverserotateone(t_list **begin, t_list **last);
 void			ft_reverserotateboth(t_info *info);
-t_info			**create_tab(int ac, char **av);
-void			free_info(t_info **info);
-void			find_index(t_info *info);
-void			find_wrong_pos(t_info *info);
-void			find_max_sorted(t_info *info);
-void			keep_min_only(t_info *info);
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions);
 int				ft_findinsertpos(t_info *info, int nb);
 t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
 t_instructions	*free_instructions(t_instructions *begin);
 void			print_instructions(t_instructions *begin);
-void			init_target(t_moves *move);
-t_moves			*add_move(t_list *target, int dist);
 void			free_tab_moves(t_moves **tab);
 void			ft_pushorswap(t_info *info, t_moves *possibility);
 void			ft_pushinorder(t_info *info, t_moves *possibility);
 t_instructions	*sort(t_info **info);
-int				tot_nb_moves(t_moves *possibility);
+int				tot_nb_moves(t_moves *mv);
 void			optrot(t_info *info, t_moves *moves, int dist_a, int dist_b);
-void			reinitmove(t_moves *move, t_list *target, int dist);
+void			init_mv(t_moves *move, t_list *target, int dist);
 
 #endif

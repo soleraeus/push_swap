@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/29 11:56:00 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 12:19:51 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	ft_pusha(t_info *info)
 	if (info->size_b == 0)
 		return ;
 	swap = info->begin_b;
-	if (swap->index == (info->maxsorted->index - 1))
+	if (swap->index == (info->maxsorted->index - 1)
+		|| (info->maxsorted == info->min && swap->index == (info->tot_size - 1)))
 		info->maxsorted = swap;
 	if (info->size_b == 1)
 	{

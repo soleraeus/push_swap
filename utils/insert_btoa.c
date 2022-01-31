@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:13:34 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/29 12:19:12 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 14:11:46 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_moves	*get_best_insert(t_info *info, t_list *first)
 	while (it)
 	{
 		first->prev->next = first;	
-		reinitmove(&test, it, getdist(info->begin_b, info->size_b, it));
+		init_mv(&test, it, getdist(info->begin_b, info->size_b, it));
 		first->prev->next = NULL;
 		optrot(info, &test, get_ins_pos(info, &test), test.dist);
 		test.pa += 1;

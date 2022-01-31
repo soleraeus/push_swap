@@ -6,15 +6,13 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/27 20:25:37 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/31 14:21:35 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS=   ./utils/build_possibilities.c \
-		./utils/dist.c \
+SRCS=   ./utils/dist.c \
 		./utils/execute_actions.c \
 		./utils/find_best_move.c \
-		./utils/ft_finalrotation.c \
 		./utils/ft_pushandswap.c \
 		./utils/ft_rotate.c \
 		./utils/info.c \

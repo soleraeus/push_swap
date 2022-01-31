@@ -1,84 +1,48 @@
 #include "push_swap.h"
 
-/*
-static t_moves	insert_or_remove(t_info *info)
-{
-	t_moves	*move_remove;
-	t_moves	*move_insert;
 
-	move_remove = find_best_move_remove(info);
-	if (!move)
+static t_moves	*pa_or_pb(t_info *info, int insert)
+{
+	t_moves	*ret;
+	t_moves	mv_ins;
+
+	ret = (t_moves *)malloc(sizeof(t_moves));
+	if (!ret)
 		return (NULL);
+	*ret = find_best_move_remove(info);
+	if (insert && info->size_b)
+	{
+		mv_ins = find_best_move_insert(info);
+		if (mv_ins.target && mv_ins.nb_instructions <= ret->nb_instructions)
+		{
+			*ret = mv_ins;
+			info->unordered += 1;
+		}
+	}
+	execute_actions(info, ret, 0);
+	info->unordered -= 1;
+	return	(ret);
 }
-*/
 
-static t_instructions	*sortlist_insert(t_info *info)
+
+static t_instructions	*sortlist(t_info *info, int insert)
 {
 	t_instructions	*instructions;
-	t_moves 		*possibility_remove;
-	t_moves			*possibility_insert;
+	t_moves 		*nxt_mv;
 
 	instructions = NULL;
 	while (info->unordered != 0)
 	{
-		possibility_insert = NULL;
-		possibility_remove = find_best_move_remove(info);
-		if (info->size_b)
-		{
-			possibility_insert = find_best_move_insert(info);
-			if ( possibility_insert && possibility_insert->target != NULL && possibility_insert->nb_instructions < possibility_remove->nb_instructions)
-			{
-				execute_actions(info, possibility_insert, 0);
-				instructions = add_instruction(instructions, possibility_insert);
-				free(possibility_remove);
-			}
-			else
-			{
-				execute_actions(info, possibility_remove, 0);
-				instructions = add_instruction(instructions, possibility_remove);
-				free(possibility_insert);
-				info->unordered -= 1;
-			}
-		}
-		else
-		{
-			execute_actions(info, possibility_remove, 0);
-			instructions = add_instruction(instructions, possibility_remove);
-			info->unordered -= 1;
-		}
+			nxt_mv = pa_or_pb(info, insert);
+			if (!nxt_mv)
+				return (free_instructions(instructions), NULL);
+			instructions = add_instruction(instructions, nxt_mv);
 	}
 	if (info->size_b != 0)
 		instructions = ft_insertbtoa(info, instructions);
-	instructions = ft_finalrotation(info, instructions);
+	instructions = finalrot(info, instructions);
 	return (instructions);
 }
-
-
-static t_instructions	*sortlist(t_info *info)
-{
-	t_instructions	*instructions;
-	t_instructions	*new;
-	t_moves 		*move;
-
-	instructions = NULL;
-	while (info->unordered != 0)
-	{
-		move = find_best_move_remove(info);
-		if (!move)
-			return (free_instructions(instructions), NULL);
-		execute_actions(info, move, 0);
-		new = add_instruction(instructions, move);
-		if (!new)
-			return (free_instructions(instructions), free(move), NULL);
-		instructions = new;
-		info->unordered -= 1;
-	}
-	if (info->size_b != 0)
-		instructions = ft_insertbtoa(info, instructions);
-	instructions = ft_finalrotation(info, instructions);
-	return (instructions);
-}
-
 
 static t_instructions	*keep_min(t_instructions *min, t_instructions *current)
 {
@@ -97,16 +61,16 @@ t_instructions	*sort(t_info **info)
 {
 	t_instructions	*min;
 
-	min = sortlist(info[0]);
+	min = sortlist(info[0], 0);
 	if (!min)
 		return (NULL);
-	min = keep_min(min, sortlist_insert(info[1]));
+	min = keep_min(min, sortlist(info[1], 1));
 	if (!min)
 		return (NULL);
-	min = keep_min(min, sortlist_insert(info[2]));
+	min = keep_min(min, sortlist(info[2], 0));
 	if (!min)
 		return (NULL);
-	min = keep_min(min, sortlist(info[3]));
+	min = keep_min(min, sortlist(info[3], 1));
 	if (!min)
 		return (NULL);
 	return (min);
