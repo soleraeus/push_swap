@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:41:05 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 17:00:23 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 18:32:04 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,19 @@ int	tot_nb_moves(t_moves *mv)
 	return (mv->nb_op);
 }
 
-t_instructions	*finalrot(t_info *info, t_instructions *instructions)
+t_moves	*finalrot(t_info *info, t_moves *mv_lst)
 {
 	t_moves			*new_mv;
-	t_instructions	*new_instruct;
 
 	new_mv = (t_moves *)malloc(sizeof(t_moves));
 	if (!new_mv)
-		return (free_instructions(instructions), NULL);
+		return (free_mv_lst(mv_lst), NULL);
 	init_mv(new_mv, info->min, getdist(info->begin_a, info->min));
 	ft_bringtofront(info, new_mv, 'a');
 	tot_nb_moves(new_mv);
 	execute_actions(info, new_mv, 0);
-	new_instruct = add_instruction(instructions, new_mv);
-	if (!new_instruct)
-		return (free(new_mv), free_instructions(instructions), NULL);
-	instructions = new_instruct;
-	return (instructions);
+	mv_lst = add_mv(mv_lst, new_mv);
+	return (mv_lst);
 }
 
 static void	calc_ins_mv(t_info *info, t_moves *ret, int i)

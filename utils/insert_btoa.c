@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:13:34 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 16:48:46 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 19:06:10 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,10 @@ static t_moves	*get_best_insert(t_info *info, t_list *first)
 	return (nb_pa(move, first), move);
 }
 
-t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
+t_moves	*ft_insertbtoa(t_info *info, t_moves *mv_lst)
 {
 	t_list			*first;
 	t_moves			*new_mv;
-	t_instructions	*new_inst;
 
 	while (info->size_b != 0)
 	{
@@ -87,12 +86,9 @@ t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
 			first = first->prev;
 		new_mv = get_best_insert(info, first);
 		if (!new_mv)
-			return (free_instructions(instructions), NULL);
+			return (free_mv_lst(mv_lst), NULL);
 		execute_actions(info, new_mv, 0);
-		new_inst = add_instruction(instructions, new_mv);
-		if (!new_inst)
-			return (free_instructions(instructions), free(new_mv), NULL);
-		instructions = new_inst;
+		mv_lst = add_mv(mv_lst, new_mv);
 	}
-	return (instructions);
+	return (mv_lst);
 }

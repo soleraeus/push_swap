@@ -6,20 +6,20 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 16:50:37 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 16:51:39 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 19:10:49 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_moves	*pa_or_pb(t_info *info, int insert)
+static t_moves	*pa_or_pb(t_info *info, t_moves *mv_lst, int insert)
 {
 	t_moves	*ret;
 	t_moves	mv_ins;
 
 	ret = (t_moves *)malloc(sizeof(t_moves));
 	if (!ret)
-		return (NULL);
+		return (free_mv_lst(mv_lst), NULL);
 	*ret = best_mv_rm(info);
 	if (insert && info->size_b)
 	{
@@ -32,56 +32,63 @@ static t_moves	*pa_or_pb(t_info *info, int insert)
 	}
 	execute_actions(info, ret, 0);
 	info->unordered -= 1;
-	return (ret);
+	mv_lst = add_mv(mv_lst, ret);
+	return (mv_lst);
 }
 
-static t_instructions	*sortlist(t_info *info, int insert)
+static t_moves	*sortlist(t_info *info, int insert)
 {
-	t_instructions	*instructions;
-	t_moves			*nxt_mv;
+	t_moves	*mv_lst;
 
-	instructions = NULL;
+	mv_lst = NULL;
 	while (info->unordered != 0)
 	{
-		nxt_mv = pa_or_pb(info, insert);
-		if (!nxt_mv)
-			return (free_instructions(instructions), NULL);
-		instructions = add_instruction(instructions, nxt_mv);
+		mv_lst = pa_or_pb(info, mv_lst, insert);
+		if (!mv_lst)
+			return (NULL);
 	}
 	if (info->size_b != 0)
-		instructions = ft_insertbtoa(info, instructions);
-	instructions = finalrot(info, instructions);
-	return (instructions);
+	{
+		mv_lst = ft_insertbtoa(info, mv_lst);
+		if (!mv_lst)
+			return (NULL);
+	}
+	if (info->begin_a != info->min)
+	{
+		mv_lst = finalrot(info, mv_lst);
+		if (!mv_lst)
+			return (NULL);
+	}
+	return (mv_lst);
 }
 
-static t_instructions	*keep_min(t_instructions *min, t_instructions *current)
+static t_moves	*keep_min(t_moves *min, t_moves *current)
 {
 	if (!current)
-		return (free_instructions(min), NULL);
-	if (current->tot_nb_op < min->tot_nb_op)
+		return (free_mv_lst(min), NULL);
+	if (!min)
+		return (current);
+	if (current->nb_op < min->nb_op)
 	{
-		free_instructions(min);
+		free_mv_lst(min);
 		return (current);
 	}
-	free_instructions(current);
+	free_mv_lst(current);
 	return (min);
 }
 
-t_instructions	*sort(t_info **info)
+t_moves	*sort(t_info **info)
 {
-	t_instructions	*min;
+	int		i;
+	t_moves	*min;
 
-	min = sortlist(info[0], 0);
-	if (!min)
-		return (NULL);
-	min = keep_min(min, sortlist(info[1], 1));
-	if (!min)
-		return (NULL);
-	min = keep_min(min, sortlist(info[2], 0));
-	if (!min)
-		return (NULL);
-	min = keep_min(min, sortlist(info[3], 1));
-	if (!min)
-		return (NULL);
+	i = -1;
+	min = NULL;
+	while (++i < 4)
+	{
+		min = keep_min(min, sortlist(info[i], (i % 2)));
+		if (!min)
+			return (NULL);
+	}
 	return (min);
 }

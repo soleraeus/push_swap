@@ -2,8 +2,8 @@
 
 ################### Variables to modify ###################
 nbiterations=250
-nbmaxmoves=700
-listsize=100
+nbmaxmoves=5500
+listsize=500
 checker="checker_Mac"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
