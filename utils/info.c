@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:35:54 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 15:06:35 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 16:47:23 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static void	init_info(t_info *info, int size)
 	info->begin_a = NULL;
 	info->last_a = NULL;
 	info->min = NULL;
-	info->maxsorted = NULL;
+	info->maxsort = NULL;
 	info->size_a = size;
 	info->unordered = 0;
 	info->begin_b = NULL;
 	info->last_b = NULL;
 	info->size_b = 0;
 	info->min_b = NULL;
-	info->tot_size = size;
+	info->lst_sz = size;
 }
 
 static int	cpy_info(t_info *dst, t_info *src)
@@ -60,8 +60,8 @@ static int	cpy_info(t_info *dst, t_info *src)
 			dst->last_a = dst->begin_a;
 		if (current == src->min)
 			dst->min = dst->begin_a;
-		if (current == src->maxsorted)
-			dst->maxsorted = dst->begin_a;
+		if (current == src->maxsort)
+			dst->maxsort = dst->begin_a;
 		current = current->prev;
 	}
 	dst->begin_a->prev = dst->last_a;
@@ -72,7 +72,6 @@ static int	cpy_info(t_info *dst, t_info *src)
 
 static int	create_first_info(t_info **info, int ac, char **av)
 {
-
 	while (ac-- > 1)
 	{
 		if (lstaddnbr(info[0], av[ac]))
@@ -88,7 +87,7 @@ static int	create_first_info(t_info **info, int ac, char **av)
 
 t_info	**create_tab(int ac, char **av)
 {
-	int	i;
+	int		i;
 	t_info	**info;
 
 	info = (t_info **)malloc(sizeof(t_info *) * 5);
@@ -107,11 +106,8 @@ t_info	**create_tab(int ac, char **av)
 		return (free_info(info), NULL);
 	if (info[0]->unordered == 0)
 		return (info);
-	i = 0;
-	while (++i < 4)
-	{
-		if (cpy_info(info[i], info[0]))
-			return (free_info(info), NULL);
-	}
+	if (cpy_info(info[1], info[0]) || cpy_info(info[2], info[0])
+		|| cpy_info(info[3], info[0]))
+		return (free_info(info), NULL);
 	return (keep_min_only(info[2]), keep_min_only(info[3]), info);
 }

@@ -1,24 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   moves.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/31 16:49:39 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/31 16:50:16 by bdetune          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
-
-void	free_tab_moves(t_moves **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 void	init_mv(t_moves *move, t_list *target, int dist)
 {
 	move->target = target;
 	move->dist = dist;
 	move->nb = target->nb;
-	move->nb_instructions = 0;
+	move->nb_op = 0;
 	move->ra = 0;
 	move->rb = 0;
 	move->rr = 0;

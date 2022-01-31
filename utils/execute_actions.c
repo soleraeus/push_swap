@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 07:16:56 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/27 21:09:15 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 16:14:11 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ static void	handle_swaps(t_info *info, t_moves *move, int print)
 	if (!print)
 	{
 		while (sa--)
-			ft_swapone(&info->begin_a);
+			swap_one(info, 'A');
 		while (sb--)
-			ft_swapone(&info->begin_b);
+			swap_one(info, 'B');
 		while (ss--)
-			ft_swapboth(info);
+			swap_both(info);
 		return ;
 	}
 	while (sa--)

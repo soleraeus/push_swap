@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:31:40 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 14:21:18 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 17:01:34 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # define WRONG_NUMBER "Error\n"
 # define WRONG_NUMBER_SIZE 6
-# define TARGET_NB 500
 
 typedef struct s_list
 {
@@ -34,7 +33,7 @@ typedef struct s_moves
 	t_list	*target;
 	int		dist;
 	int		nb;
-	int		nb_instructions;
+	int		nb_op;
 	int		ra;
 	int		rb;
 	int		rr;
@@ -53,19 +52,19 @@ typedef struct s_info
 	t_list	*begin_a;
 	t_list	*last_a;
 	t_list	*min;
-	t_list	*maxsorted;
+	t_list	*maxsort;
 	int		size_a;
 	int		unordered;
 	t_list	*begin_b;
 	t_list	*last_b;
 	int		size_b;
 	t_list	*min_b;
-	int		tot_size;
+	int		lst_sz;
 }	t_info;
 
 typedef struct s_instructions
 {
-	int						tot_nb_instructions;
+	int						tot_nb_op;
 	t_moves					*moves;
 	struct s_instructions	*first;
 	struct s_instructions	*prev;
@@ -88,15 +87,15 @@ void			find_max_sorted(t_info *info);
 void			keep_min_only(t_info *info);
 void			nb_pa(t_moves *move, t_list *first);
 void			ft_bringtofront(t_info *info, t_moves *possibility, char stack);
-int				getdist(t_list *begin, int size, t_list *target);
+int				getdist(t_list *begin, t_list *target);
 void			execute_actions(t_info *info, t_moves *move, int print);
-t_moves			find_best_move_remove(t_info *info);
-t_moves			find_best_move_insert(t_info *info);
+t_moves			best_mv_rm(t_info *info);
+t_moves			best_mv_ins(t_info *info);
 t_instructions	*finalrot(t_info *info, t_instructions *instructions);
 void			ft_pusha(t_info *info);
 void			ft_pushb(t_info *info);
-void			ft_swapboth(t_info *info);
-void			ft_swapone(t_list **begin);
+void			swap_both(t_info *info);
+void			swap_one(t_info *info, char stack);
 void			ft_rotateone(t_list **begin, t_list **last);
 void			ft_rotateboth(t_info *info);
 void			ft_reverserotateone(t_list **begin, t_list **last);
@@ -107,7 +106,7 @@ t_instructions	*add_instruction(t_instructions *instructions, t_moves *move);
 t_instructions	*free_instructions(t_instructions *begin);
 void			print_instructions(t_instructions *begin);
 void			free_tab_moves(t_moves **tab);
-void			ft_pushorswap(t_info *info, t_moves *possibility);
+void			push_or_swap(t_info *info, t_moves *mv);
 void			ft_pushinorder(t_info *info, t_moves *possibility);
 t_instructions	*sort(t_info **info);
 int				tot_nb_moves(t_moves *mv);

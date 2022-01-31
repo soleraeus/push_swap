@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   findindex.c                                        :+:      :+:    :+:   */
+/*   init_info.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 12:08:33 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/29 10:59:27 by bdetune          ###   ########.fr       */
+/*   Created: 2022/01/31 15:52:05 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/31 15:52:10 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	keep_min_only(t_info *info)
 		current->streak = -1;
 		current = current->next;
 	}
-	info->unordered = info->tot_size - 1;
-	info->maxsorted = info->min;
+	info->unordered = info->lst_sz - 1;
+	info->maxsort = info->min;
 }
 
 void	find_max_sorted(t_info *info)
@@ -36,17 +36,17 @@ void	find_max_sorted(t_info *info)
 	current = info->last_a;
 	while (current)
 	{
-		if (current->index == (info->tot_size - i) && current->streak != -1)
+		if (current->index == (info->lst_sz - i) && current->streak != -1)
 		{
-			info->maxsorted = current;
+			info->maxsort = current;
 			i++;
 			current = info->last_a;
 		}
 		else
 			current = current->prev;
 	}
-	if (!info->maxsorted)
-		info->maxsorted = info->min;
+	if (!info->maxsort)
+		info->maxsort = info->min;
 	info->begin_a->prev = info->last_a;
 }
 

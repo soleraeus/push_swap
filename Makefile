@@ -6,14 +6,14 @@
 #    By: bdetune <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:03:34 by bdetune           #+#    #+#              #
-#    Updated: 2022/01/31 14:21:35 by bdetune          ###   ########.fr        #
+#    Updated: 2022/01/31 16:52:28 by bdetune          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS=   ./utils/dist.c \
 		./utils/execute_actions.c \
 		./utils/find_best_move.c \
-		./utils/ft_pushandswap.c \
+		./utils/push_and_swap.c \
 		./utils/ft_rotate.c \
 		./utils/info.c \
 		./utils/init_info.c \
@@ -23,7 +23,7 @@ SRCS=   ./utils/dist.c \
 		./utils/moves.c \
 		./utils/numbers.c \
 		./utils/optimize_rotations.c \
-		./utils/pushorswap.c \
+		./utils/push_or_swap.c \
 		./utils/sort.c \
 		./utils/throw_error.c \
 		push_swap.c

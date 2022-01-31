@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:13:34 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 14:11:46 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/01/31 16:48:46 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	get_ins_pos(t_info *info, t_moves *move)
 {
-	int	dist;
+	int		dist;
 	t_list	*current;
 
-	if (move->target->index == (info->tot_size - 1))
-		return (getdist(info->begin_a, info->size_a, info->min));
+	if (move->target->index == (info->lst_sz - 1))
+		return (getdist(info->begin_a, info->min));
 	if (move->target->index == (info->begin_a->index - 1))
 		return (0);
 	dist = 1;
@@ -59,14 +59,13 @@ static t_moves	*get_best_insert(t_info *info, t_list *first)
 	it = first;
 	while (it)
 	{
-		first->prev->next = first;	
-		init_mv(&test, it, getdist(info->begin_b, info->size_b, it));
+		first->prev->next = first;
+		init_mv(&test, it, getdist(info->begin_b, it));
 		first->prev->next = NULL;
 		optrot(info, &test, get_ins_pos(info, &test), test.dist);
 		test.pa += 1;
 		tot_nb_moves(&test);
-		if (move->target == NULL
-			|| test.nb_instructions < move->nb_instructions)
+		if (move->target == NULL || test.nb_op < move->nb_op)
 			*move = test;
 		while (it->next && it->next->index == (it->index - 1))
 			it = it->next;
@@ -77,8 +76,8 @@ static t_moves	*get_best_insert(t_info *info, t_list *first)
 
 t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
 {
-	t_list		*first;
-	t_moves		*new;
+	t_list			*first;
+	t_moves			*new_mv;
 	t_instructions	*new_inst;
 
 	while (info->size_b != 0)
@@ -86,13 +85,13 @@ t_instructions	*ft_insertbtoa(t_info *info, t_instructions *instructions)
 		first = info->begin_b;
 		while (first->prev->index == (first->index + 1))
 			first = first->prev;
-		new = get_best_insert(info, first);
-		if (!new)
+		new_mv = get_best_insert(info, first);
+		if (!new_mv)
 			return (free_instructions(instructions), NULL);
-		execute_actions(info, new, 0);
-		new_inst = add_instruction(instructions, new);
+		execute_actions(info, new_mv, 0);
+		new_inst = add_instruction(instructions, new_mv);
 		if (!new_inst)
-			return (free_instructions(instructions), free(new), NULL);
+			return (free_instructions(instructions), free(new_mv), NULL);
 		instructions = new_inst;
 	}
 	return (instructions);

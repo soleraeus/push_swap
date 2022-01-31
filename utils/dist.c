@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dist.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/31 15:28:00 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/31 15:54:11 by bdetune          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int	getdist(t_list *begin, int size, t_list *target)
+int	getdist(t_list *begin, t_list *target)
 {
 	int		dist;
 	t_list	*current;
 
-	(void)size;
 	dist = 0;
 	current = begin;
 	while (current != target)
@@ -23,11 +34,11 @@ void	ft_bringtofront(t_info *info, t_moves *possibility, char stack)
 	dist = possibility->dist;
 	if (stack == 'a' && (info->size_a - dist) < dist)
 		dist = -(info->size_a - dist);
-	if  (stack == 'b' && (info->size_b - dist) < dist)
+	if (stack == 'b' && (info->size_b - dist) < dist)
 		dist = -(info->size_b - dist);
 	while (dist < 0)
 	{
-		if 	(stack == 'a')
+		if (stack == 'a')
 			possibility->rra += 1;
 		else
 			possibility->rrb += 1;
@@ -35,7 +46,7 @@ void	ft_bringtofront(t_info *info, t_moves *possibility, char stack)
 	}
 	while (dist > 0)
 	{
-		if 	(stack == 'a')
+		if (stack == 'a')
 			possibility->ra += 1;
 		else
 			possibility->rb += 1;

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_best_move.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/31 15:41:05 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/31 17:00:23 by bdetune          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	tot_nb_moves(t_moves *mv)
 {
-	mv->nb_instructions = mv->ra + mv->rb + mv->rr + mv->rra + mv->rrb + mv->rrr \
+	mv->nb_op = mv->ra + mv->rb + mv->rr + mv->rra + mv->rrb + mv->rrr \
 			+ mv->sa + mv->sb + mv->ss + mv->pa + mv->pb;
-	return (mv->nb_instructions);
+	return (mv->nb_op);
 }
 
 t_instructions	*finalrot(t_info *info, t_instructions *instructions)
@@ -15,7 +27,7 @@ t_instructions	*finalrot(t_info *info, t_instructions *instructions)
 	new_mv = (t_moves *)malloc(sizeof(t_moves));
 	if (!new_mv)
 		return (free_instructions(instructions), NULL);
-	init_mv(new_mv, info->min, getdist(info->begin_a, info->size_a, info->min));
+	init_mv(new_mv, info->min, getdist(info->begin_a, info->min));
 	ft_bringtofront(info, new_mv, 'a');
 	tot_nb_moves(new_mv);
 	execute_actions(info, new_mv, 0);
@@ -26,7 +38,16 @@ t_instructions	*finalrot(t_info *info, t_instructions *instructions)
 	return (instructions);
 }
 
-t_moves	find_best_move_insert(t_info *info)
+static void	calc_ins_mv(t_info *info, t_moves *ret, int i)
+{
+	optrot(info, ret, getdist(info->begin_a, info->maxsort), i);
+	ret->pa = 1;
+	tot_nb_moves(ret);
+	ret->target->prev->next = NULL;
+	nb_pa(ret, ret->target);
+}
+
+t_moves	best_mv_ins(t_info *info)
 {
 	int		i;
 	t_list	*it;
@@ -38,8 +59,8 @@ t_moves	find_best_move_insert(t_info *info)
 	i = 0;
 	while (it)
 	{
-		if (it->index == (info->maxsorted->index - 1)
-			|| (info->maxsorted == info->min && it->index == (info->tot_size - 1)))
+		if (it->index == (info->maxsort->index - 1)
+			|| (info->maxsort == info->min && it->index == (info->lst_sz - 1)))
 		{
 			init_mv(&ret, it, i);
 			break ;
@@ -49,33 +70,26 @@ t_moves	find_best_move_insert(t_info *info)
 	}
 	info->last_b->next = info->begin_b;
 	if (ret.target)
-	{
-		optrot(info, &ret, getdist(info->begin_a, info->size_a, info->maxsorted), i);
-		ret.pa = 1;
-		tot_nb_moves(&ret);
-		ret.target->prev->next = NULL;
-		nb_pa(&ret, ret.target);
-	}		
+		calc_ins_mv(info, &ret, i);
 	return (ret);
 }
 
-
-t_moves	find_best_move_remove(t_info *info)
+t_moves	best_mv_rm(t_info *info)
 {
 	t_moves	ret;
 	t_moves	test;
 	t_list	*current;
 
 	ret.target = NULL;
-	current = info->min->next;;
+	current = info->min->next;
 	while (current != info->min)
 	{
 		if (current->streak == -1)
 		{
-			init_mv(&test, current, getdist(info->begin_a, info->size_a, current));
-			ft_pushorswap(info, &test);
-			if (ret.target == NULL || test.nb_instructions < ret.nb_instructions
-				|| (test.nb_instructions == ret.nb_instructions && test.nb > ret.nb))
+			init_mv(&test, current, getdist(info->begin_a, current));
+			push_or_swap(info, &test);
+			if (ret.target == NULL || test.nb_op < ret.nb_op
+				|| (test.nb_op == ret.nb_op && test.nb > ret.nb))
 				ret = test;
 		}
 		current = current->next;

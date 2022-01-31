@@ -1,22 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pushandswap.c                                   :+:      :+:    :+:   */
+/*   push_and_swap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 13:33:41 by bdetune           #+#    #+#             */
-/*   Updated: 2022/01/31 12:19:51 by bdetune          ###   ########.fr       */
+/*   Created: 2022/01/31 15:59:05 by bdetune           #+#    #+#             */
+/*   Updated: 2022/01/31 17:08:17 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_swapone(t_list **begin)
+void	swap_one(t_info *info, char stack)
 {
+	t_list	**begin;
 	t_list	*swap;
 
+	if (!info || !(stack == 'A' || stack == 'B')
+		|| (stack == 'A' && info->size_a < 2)
+		|| (stack == 'B' && info->size_b < 2))
+		return ;
+	if (stack == 'A')
+		begin = &info->begin_a;
+	else
+		begin = &info->begin_b;
 	swap = *begin;
+	if (stack == 'A' && (swap->index == (info->maxsort->index - 1)
+			|| (swap->index == (info->lst_sz - 1)
+				&& info->maxsort == info->min)))
+		info->maxsort = swap;
+	if (stack == 'A' && (swap->next->index == (info->maxsort->index - 1)
+			|| (swap->next->index == (info->lst_sz - 1)
+				&& info->maxsort == info->min)))
+		info->maxsort = swap->next;
 	*begin = swap->next;
 	(*begin)->next->prev = swap;
 	(*begin)->prev = swap->prev;
@@ -26,10 +43,10 @@ void	ft_swapone(t_list **begin)
 	(*begin)->next = swap;
 }
 
-void	ft_swapboth(t_info *info)
+void	swap_both(t_info *info)
 {
-	ft_swapone(&info->begin_a);
-	ft_swapone(&info->begin_b);
+	swap_one(info, 'A');
+	swap_one(info, 'B');
 }
 
 void	ft_pushb(t_info *info)
@@ -72,9 +89,9 @@ void	ft_pusha(t_info *info)
 	if (info->size_b == 0)
 		return ;
 	swap = info->begin_b;
-	if (swap->index == (info->maxsorted->index - 1)
-		|| (info->maxsorted == info->min && swap->index == (info->tot_size - 1)))
-		info->maxsorted = swap;
+	if (swap->index == (info->maxsort->index - 1)
+		|| (info->maxsort == info->min && swap->index == (info->lst_sz - 1)))
+		info->maxsort = swap;
 	if (info->size_b == 1)
 	{
 		info->begin_b = NULL;
