@@ -2,9 +2,9 @@
 
 ################### Variables to modify ###################
 nbiterations=250
-nbmaxmoves=5500
-listsize=500
-checker="checker_Mac"
+nbmaxmoves=3
+listsize=3
+checker="checker"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
 resultsfile="maxargs.txt"
@@ -15,7 +15,7 @@ x=1
 max=0
 maxargs=0
 moy=0
-make
+make bonus
 echo -e "Starting tests\n"
 while [ $x -le $nbiterations ]
 do
