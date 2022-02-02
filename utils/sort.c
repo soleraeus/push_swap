@@ -36,7 +36,7 @@ static t_moves	*pa_or_pb(t_info *info, t_moves *mv_lst, int insert)
 	return (mv_lst);
 }
 
-static t_moves	*sortlist(t_info *info, int insert)
+static t_moves	*sortlist(t_info *info, int insert, t_moves *min)
 {
 	t_moves	*mv_lst;
 
@@ -44,21 +44,17 @@ static t_moves	*sortlist(t_info *info, int insert)
 	while (info->unordered != 0)
 	{
 		mv_lst = pa_or_pb(info, mv_lst, insert);
-		if (!mv_lst)
-			return (NULL);
+		if (!mv_lst || (min && mv_lst->nb_op >= min->nb_op))
+			return (mv_lst);
 	}
 	if (info->size_b != 0)
 	{
 		mv_lst = ft_insertbtoa(info, mv_lst);
-		if (!mv_lst)
-			return (NULL);
+		if (!mv_lst || (min && mv_lst->nb_op >= min->nb_op))
+			return (mv_lst);
 	}
 	if (info->begin_a != info->min)
-	{
 		mv_lst = finalrot(info, mv_lst);
-		if (!mv_lst)
-			return (NULL);
-	}
 	return (mv_lst);
 }
 
@@ -86,7 +82,7 @@ t_moves	*sort(t_info **info)
 	min = NULL;
 	while (++i < 4)
 	{
-		min = keep_min(min, sortlist(info[i], (i % 2)));
+		min = keep_min(min, sortlist(info[i], (i % 2), min));
 		if (!min)
 			return (NULL);
 	}

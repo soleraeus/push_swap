@@ -37,6 +37,8 @@ CFLAGS=   -Wall -Wextra -Werror
 ${NAME}:	${INCL} ${OBJS}
 			${CC} -o ${NAME} ${CFLAGS} ${OBJS} -I includes
 
+all:		$(NAME)
+
 ${OBJS}:	${INCL}
 
 
