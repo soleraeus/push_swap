@@ -6,11 +6,11 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 16:40:22 by bdetune           #+#    #+#             */
-/*   Updated: 2021/12/13 17:09:33 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/02/02 19:24:52 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "checker.h"
 
 int	internal_hasnl(char *str, int *start_index, int *nl_pos)
 {

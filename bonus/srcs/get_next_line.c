@@ -6,11 +6,11 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 16:59:11 by bdetune           #+#    #+#             */
-/*   Updated: 2021/12/07 18:00:19 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/02/02 19:24:34 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "checker.h"
 
 void	internal_get_str(int fd, t_openfd *current, \
 		int start_index, int *nl_pos)
