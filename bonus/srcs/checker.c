@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 20:34:19 by bdetune           #+#    #+#             */
-/*   Updated: 2022/02/02 20:24:19 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/02/03 13:04:34 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ int	main(int ac, char **av)
 
 	if (ac == 1)
 		return (0);
-	info = (t_info *)malloc(sizeof(t_info));
-	if (!info)
-		return (1);
-	if (create_info(info, ac, av))
-		return (free_info(info), 1);
 	inst_lst = NULL;
 	inst = get_next_line(0);
 	while (inst)
 	{
 		inst_lst = add_inst(inst_lst, inst);
 		if (!inst_lst)
-			return (free_info(info), 1);
+			return (1);
 		inst = get_next_line(0);
 	}
+	info = (t_info *)malloc(sizeof(t_info));
+	if (!info)
+		return (free_inst(inst_lst), 1);
+	if (create_info(info, ac, av))
+		return (free_info(info), free_inst(inst_lst), 1);
 	if (execute_inst(info, inst_lst))
 		return (free_info(info), free_inst(inst_lst), 1);
 	is_sorted(info);
