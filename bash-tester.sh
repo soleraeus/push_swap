@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ################### Variables to modify ###################
-nbiterations=1000
+nbiterations=500
 nbmaxmoves=5500
 listsize=500
 checker="checker"
