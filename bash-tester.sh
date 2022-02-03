@@ -1,9 +1,9 @@
 #! /bin/bash
 
 ################### Variables to modify ###################
-nbiterations=250
-nbmaxmoves=3
-listsize=3
+nbiterations=1000
+nbmaxmoves=5500
+listsize=500
 checker="checker"
 erroutfile="errout.txt"
 overlimitfile="overlimit.txt"
