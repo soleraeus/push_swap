@@ -6,7 +6,7 @@
 /*   By: bdetune <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:59:09 by bdetune           #+#    #+#             */
-/*   Updated: 2022/02/02 19:47:00 by bdetune          ###   ########.fr       */
+/*   Updated: 2022/02/08 12:32:15 by bdetune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_inst(t_inst *inst_lst)
 		prev = current->prev;
 		free(current->inst);
 		free(current);
-		current = current->prev;
+		current = prev;
 	}
 }
 
